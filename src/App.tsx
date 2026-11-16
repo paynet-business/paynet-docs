@@ -17,6 +17,7 @@ import { useOpenAPI } from './hooks/useOpenAPI';
  * Hash routes (every page is linkable):
  *   #/                       home (product catalogue)
  *   #/guides/<slug>          guide from content/<lang>/<section>/NN-<slug>.md
+ *   #/mia-retail/<slug>      MIA Retail guide (content/<lang>/mia-retail/NN-<slug>.md)
  *   #/page/<tool>            interactive tools: checkout-form, notification-simulator, plugins
  *   #/api/<endpointId>       API method with the online tester
  * Old links from the previous portal structure are redirected (see LEGACY_PAGES).
@@ -34,8 +35,8 @@ const TOOL_PAGES = ['plugins', 'checkout-form', 'notification-simulator'] as con
 type ToolPage = (typeof TOOL_PAGES)[number];
 
 const parseHash = (hash: string): Route | { redirect: string } => {
-  const [, kind, value] = hash.match(/^#\/(guides|page|api)\/(.+)$/) || [];
-  if (kind === 'guides' && value) return { kind: 'guide', slug: decodeURIComponent(value) };
+  const [, kind, value] = hash.match(/^#\/(guides|page|api|mia-retail)\/(.+)$/) || [];
+  if ((kind === 'guides' || kind === 'mia-retail') && value) return { kind: 'guide', slug: decodeURIComponent(value) };
   if (kind === 'page' && value) {
     if ((TOOL_PAGES as readonly string[]).includes(value)) return { kind: 'page', page: value as ToolPage };
     if (LEGACY_PAGES[value]) return { redirect: LEGACY_PAGES[value] };

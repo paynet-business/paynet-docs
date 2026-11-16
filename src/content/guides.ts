@@ -15,7 +15,7 @@ const files = import.meta.glob('../../content/*/*/*.md', {
   eager: true,
 }) as Record<string, string>;
 
-export type SectionId = 'common' | 'ecom';
+export type SectionId = 'common' | 'ecom' | 'mia-retail';
 
 export interface Guide {
   slug: string;
@@ -28,12 +28,23 @@ export interface Guide {
 export const SECTIONS: Array<{ id: SectionId; title: Record<Language, string> }> = [
   { id: 'common', title: { en: 'General', ru: 'Общее', ro: 'General' } },
   { id: 'ecom', title: { en: 'E-commerce', ru: 'E-commerce', ro: 'E-commerce' } },
+  { id: 'mia-retail', title: { en: 'MIA Retail', ru: 'MIA Retail', ro: 'MIA Retail' } },
 ];
+
+/** Products whose pages are addressed as #/<product>/<slug>; other guides keep #/guides/<slug>. */
+export const PRODUCT_ROUTES = ['mia-retail'] as const;
+
+/** Sections not yet published in the AI files (llms*.txt, docs/*.md): no "Markdown / Copy for AI" menu. */
+export const DRAFT_SECTIONS: SectionId[] = ['mia-retail'];
+
+/** Address of a guide page. */
+export const guideHash = (guide: { slug: string; section: SectionId }) =>
+  (PRODUCT_ROUTES as readonly string[]).includes(guide.section) ? `#/${guide.section}/${guide.slug}` : `#/guides/${guide.slug}`;
 
 const byLanguage: Record<string, Guide[]> = {};
 
 Object.entries(files).forEach(([filePath, source]) => {
-  const match = filePath.match(/content\/([a-z]{2})\/([a-z]+)\/(\d+)-([a-z0-9-]+)\.md$/);
+  const match = filePath.match(/content\/([a-z]{2})\/([a-z-]+)\/(\d+)-([a-z0-9-]+)\.md$/);
   if (!match) return;
   const [, language, section, order, slug] = match;
   const title = (source.match(/^#\s+(.+)$/m)?.[1] || slug).trim();

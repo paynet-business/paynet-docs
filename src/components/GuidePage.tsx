@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { AiMenu } from './AiMenu';
 import { Markdown } from './Markdown';
-import { Guide, getGuides, guideUiText } from '../content/guides';
+import { DRAFT_SECTIONS, Guide, getGuides, guideHash, guideUiText } from '../content/guides';
 import { Language } from '../types/language';
 
 interface GuidePageProps {
@@ -21,14 +21,16 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guide, language, onNavigat
   return (
     <article className="max-w-4xl">
       <div className="flex flex-wrap items-center justify-end gap-2 mb-4">
-        <AiMenu
-          language={language}
-          title={guide.title}
-          markdownPath={language === 'en' ? `docs/${guide.slug}.md` : `docs/${language}/${guide.slug}.md`}
-          markdownLanguage={language.toUpperCase()}
-          markdown={guide.source}
-          onNavigate={onNavigate}
-        />
+        {!DRAFT_SECTIONS.includes(guide.section) && (
+          <AiMenu
+            language={language}
+            title={guide.title}
+            markdownPath={language === 'en' ? `docs/${guide.slug}.md` : `docs/${language}/${guide.slug}.md`}
+            markdownLanguage={language.toUpperCase()}
+            markdown={guide.source}
+            onNavigate={onNavigate}
+          />
+        )}
       </div>
 
       <Markdown source={guide.source} onNavigate={onNavigate} />
@@ -37,7 +39,7 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guide, language, onNavigat
         {previous ? (
           <button
             type="button"
-            onClick={() => onNavigate(`#/guides/${previous.slug}`)}
+            onClick={() => onNavigate(guideHash(previous))}
             className="text-left group flex items-center gap-2 text-paynet-gray-600 hover:text-paynet-primary"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -50,7 +52,7 @@ export const GuidePage: React.FC<GuidePageProps> = ({ guide, language, onNavigat
         {next ? (
           <button
             type="button"
-            onClick={() => onNavigate(`#/guides/${next.slug}`)}
+            onClick={() => onNavigate(guideHash(next))}
             className="text-right group flex items-center gap-2 text-paynet-gray-600 hover:text-paynet-primary"
           >
             <span>
