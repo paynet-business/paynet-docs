@@ -1,6 +1,6 @@
 import React from 'react';
 import { FileText, Copy, Check, Send } from 'lucide-react';
-import CryptoJS from 'crypto-js';
+import { md5Base64 } from '../utils/md5';
 import { Language } from '../types/language';
 
 import { getDefaultExpiryDate, getUniqueOrderNumber } from '../utils/sampleData';
@@ -255,7 +255,7 @@ export const ClientServerOrderRequestV06: React.FC<ClientServerOrderRequestV06Pr
       payload.Merchant = merchantCode;
       payload.SaleAreaCode = saleAreaCode;
       const rawData = buildRawData(payload);
-      const generatedSignature = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(rawData + secretKey));
+      const generatedSignature = md5Base64(rawData + secretKey);
 
       payload.Signature = generatedSignature;
       setSignature(generatedSignature);
@@ -276,7 +276,7 @@ export const ClientServerOrderRequestV06: React.FC<ClientServerOrderRequestV06Pr
     setResponseText('');
 
     try {
-      const payload = JSON.parse(signedPayloadText) as Record<string, any>;
+      const payload = JSON.parse(signedPayloadText) as Record<string, unknown>;
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = requestUrl;
@@ -319,7 +319,7 @@ export const ClientServerOrderRequestV06: React.FC<ClientServerOrderRequestV06Pr
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
 
-  const buildHiddenInputs = (payload: Record<string, any>) => {
+  const buildHiddenInputs = (payload: Record<string, unknown>) => {
     const rows: Array<{ name: string; value: string }> = [];
 
     const walk = (value: unknown, path: string, parentType: 'root' | 'array' | 'object') => {
@@ -360,7 +360,7 @@ export const ClientServerOrderRequestV06: React.FC<ClientServerOrderRequestV06Pr
 
   const getHtmlExample = () => {
     const source = signedPayloadText || payloadText;
-    let payload: Record<string, any>;
+    let payload: Record<string, unknown>;
 
     try {
       payload = JSON.parse(source);

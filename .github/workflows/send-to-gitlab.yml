@@ -8,6 +8,10 @@ on:
         description: 'GitLab branch'
         default: 'dev'
         required: true
+      expected_head:
+        description: 'Commit the GitLab branch must be at now (short SHA). Nothing is sent if IT added other commits. Empty = no check'
+        default: ''
+        required: false
 
 permissions:
   contents: write
@@ -19,6 +23,7 @@ jobs:
       GL_REPO: git-space.paypoint.md/paynet-docs/paynet-psp.git
       GL_WEB: https://git-space.paypoint.md/paynet-docs/paynet-psp
       TARGET: ${{ github.event.inputs.target_branch }}
+      EXPECTED: ${{ github.event.inputs.expected_head }}
       T: ${{ secrets.GITLAB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
@@ -35,6 +40,14 @@ jobs:
           SHA=$(git -C src rev-parse HEAD); SHORT=${SHA:0:7}
           echo "VERSION=$VERSION" >> $GITHUB_ENV; echo "SHA=$SHA" >> $GITHUB_ENV
           git clone -q --depth 1 -b "$TARGET" "https://oauth2:$T@$GL_REPO" gl
+          HEAD_NOW=$(git -C gl rev-parse HEAD)
+          if [ -n "$EXPECTED" ] && [ "${HEAD_NOW#"$EXPECTED"}" = "$HEAD_NOW" ]; then
+            git -C gl fetch -q --depth 20 origin "$TARGET"
+            echo "GitLab $TARGET is at ${HEAD_NOW:0:7}, expected $EXPECTED — someone else committed there. Nothing is sent."
+            echo "Latest commits in GitLab $TARGET:"
+            git -C gl log --format='%h %ad %an: %s' --date=short -20
+            exit 1
+          fi
           MSG=$(printf 'Документация v%s — из GitHub, коммит %s\n\nhttps://github.com/%s/commit/%s' "$VERSION" "$SHORT" "$GITHUB_REPOSITORY" "$SHA")
           RESULT=$(src/scripts/sync-to-gitlab.sh src gl "$MSG")
           if [ "$RESULT" = "NO_CHANGES" ]; then

@@ -1,3 +1,29 @@
+/** A node of an OpenAPI / JSON Schema document (only the fields the portal reads). */
+export interface SchemaObject {
+  $ref?: string;
+  type?: string;
+  format?: string;
+  description?: string;
+  properties?: Record<string, SchemaObject>;
+  items?: SchemaObject;
+  /** List of required property names; some old specs mark a single property with `required: true`. */
+  required?: string[] | boolean;
+  example?: unknown;
+  enum?: unknown[];
+}
+
+/** One media type of a request body or response (e.g. `application/json`). */
+export interface MediaTypeObject {
+  schema?: SchemaObject;
+  example?: unknown;
+}
+
+/** A response of an operation in the OpenAPI specification. */
+export interface ResponseObject {
+  description: string;
+  content?: Record<string, MediaTypeObject>;
+}
+
 export interface OpenAPISpec {
   openapi: string;
   info: {
@@ -27,27 +53,18 @@ export interface OpenAPISpec {
           description?: string;
           required?: boolean;
           content: {
-            [mediaType: string]: {
-              schema: any;
-              example?: any;
-            };
+            [mediaType: string]: MediaTypeObject;
           };
         };
         responses: {
-          [statusCode: string]: {
-            description: string;
-            content?: {
-              [mediaType: string]: {
-                schema: any;
-              };
-            };
-          };
+          [statusCode: string]: ResponseObject;
         };
         tags: string[];
       };
     };
   };
   components: {
+    schemas?: Record<string, SchemaObject>;
     securitySchemes: {
       [name: string]: {
         type: string;
@@ -74,7 +91,13 @@ export interface Endpoint {
   summary: string;
   description: string;
   parameters?: Parameter[];
-  responses: Record<string, any>;
+  responses: Record<string, ResponseObject>;
+}
+
+/** An endpoint together with the values typed in the portal's request editor. */
+export interface EndpointRequestInput extends Endpoint {
+  customParameterValues?: Record<string, string>;
+  customRequestBody?: string;
 }
 
 export interface Parameter {

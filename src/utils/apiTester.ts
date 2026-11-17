@@ -1,6 +1,7 @@
 import { saveLastOrder } from './lastOrder';
 import { Endpoint } from '../types/api';
 import { OpenAPISpec } from '../types/api';
+import { generateExampleValue, generateExampleFromSchema } from './exampleValues';
 
 export interface ApiTestRequest {
   method: string;
@@ -13,7 +14,7 @@ export interface ApiTestResponse {
   status: number;
   statusText: string;
   headers: Record<string, string>;
-  data: any;
+  data: unknown;
   responseTime: number;
   error?: string;
 }
@@ -46,85 +47,6 @@ export function getAuthToken(): string | null {
 export function clearAuthToken() {
   authToken = null;
   localStorage.removeItem('tps_api_token');
-}
-
-// Generate example values based on parameter type and schema
-function generateExampleValue(param: any, customValue?: string): any {
-  // Use custom value if provided
-  if (customValue !== undefined && customValue !== '') {
-    // Try to parse as appropriate type
-    const { type } = param.schema || param;
-    switch (type) {
-      case 'integer':
-        const intValue = parseInt(customValue);
-        return isNaN(intValue) ? customValue : intValue;
-      case 'number':
-        const numValue = parseFloat(customValue);
-        return isNaN(numValue) ? customValue : numValue;
-      case 'boolean':
-        return customValue.toLowerCase() === 'true';
-      default:
-        return customValue;
-    }
-  }
-
-  const { type, format, example, enum: enumValues, schema } = param.schema || param;
-  
-  if (example !== undefined) return example;
-  if (enumValues && enumValues.length > 0) return enumValues[0];
-  
-  switch (type) {
-    case 'string':
-      if (format === 'date') return '2024-01-01';
-      if (format === 'date-time') return '2024-01-01T00:00:00Z';
-      if (format === 'email') return 'user@example.com';
-      if (format === 'uuid') return '123e4567-e89b-12d3-a456-426614174000';
-      if (param.name?.toLowerCase().includes('id')) return 'example_id';
-      return `example_${param.name || 'value'}`;
-    case 'integer':
-      return 123;
-    case 'number':
-      return 123.45;
-    case 'boolean':
-      return true;
-    case 'array':
-      return [generateExampleValue({ schema: schema?.items || { type: 'string' } })];
-    case 'object':
-      return {};
-    default:
-      return `example_${param.name || 'value'}`;
-  }
-}
-
-// Generate example object from JSON schema
-function generateExampleFromSchema(schema: any): any {
-  if (schema.example) return schema.example;
-  
-  switch (schema.type) {
-    case 'object':
-      const obj: any = {};
-      if (schema.properties) {
-        Object.keys(schema.properties).forEach(key => {
-          obj[key] = generateExampleFromSchema(schema.properties[key]);
-        });
-      }
-      return obj;
-    case 'array':
-      return schema.items ? [generateExampleFromSchema(schema.items)] : [];
-    case 'string':
-      if (schema.format === 'date') return '2024-01-01';
-      if (schema.format === 'date-time') return '2024-01-01T00:00:00Z';
-      if (schema.format === 'email') return 'user@example.com';
-      return schema.enum?.[0] || 'example_string';
-    case 'integer':
-      return schema.enum?.[0] || 123;
-    case 'number':
-      return schema.enum?.[0] || 123.45;
-    case 'boolean':
-      return true;
-    default:
-      return null;
-  }
 }
 
 // Build request object for API testing
@@ -235,18 +157,19 @@ export function buildTestRequest(
       // Check for application/x-www-form-urlencoded first
       if (requestBody.content['application/x-www-form-urlencoded']) {
         // Build form data from parameter values
-        const formData: Record<string, any> = {};
+        const formData: Record<string, unknown> = {};
         const schema = requestBody.content['application/x-www-form-urlencoded'].schema;
+        const properties = schema?.properties;
         
-        if (schema && schema.properties) {
-          Object.keys(schema.properties).forEach(key => {
+        if (schema && properties) {
+          Object.keys(properties).forEach(key => {
             const customValue = parameterValues[key];
             if (customValue !== undefined && customValue !== '') {
               formData[key] = customValue;
-            } else if (schema.properties[key].example !== undefined) {
-              formData[key] = schema.properties[key].example;
+            } else if (properties[key].example !== undefined) {
+              formData[key] = properties[key].example;
             } else {
-              formData[key] = generateExampleValue({ schema: schema.properties[key], name: key });
+              formData[key] = generateExampleValue({ schema: properties[key], name: key });
             }
           });
         }
@@ -264,7 +187,7 @@ export function buildTestRequest(
             // Try to parse as JSON first
             JSON.parse(requestBodyValue);
             body = requestBodyValue;
-          } catch (e) {
+          } catch {
             // If parsing fails, use as string
             body = requestBodyValue;
           }
@@ -310,7 +233,7 @@ export async function executeApiTest(request: ApiTestRequest): Promise<ApiTestRe
     });
     
     // Handle different content types
-    let data;
+    let data: unknown;
     const contentType = response.headers.get('content-type');
     
     try {
@@ -331,7 +254,7 @@ export async function executeApiTest(request: ApiTestRequest): Promise<ApiTestRe
       } else {
         data = await response.text();
       }
-    } catch (parseError) {
+    } catch {
       data = await response.text();
     }
     
@@ -347,8 +270,9 @@ export async function executeApiTest(request: ApiTestRequest): Promise<ApiTestRe
 
     // Check if this is an auth request and save token
     if (request.url.includes('/auth') && response.status === 200 && data && typeof data === 'object') {
-      if (data.access_token) {
-        setAuthToken(data.access_token);
+      const accessToken = (data as Record<string, unknown>).access_token;
+      if (accessToken) {
+        setAuthToken(String(accessToken));
         console.log('✅ Auth token saved successfully');
       }
     }

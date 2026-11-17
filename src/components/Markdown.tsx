@@ -17,7 +17,7 @@ type Block =
   | { kind: 'quote'; text: string }
   | { kind: 'hr' };
 
-export const slugify = (text: string) =>
+const slugify = (text: string) =>
   text
     .toLowerCase()
     .replace(/`/g, '')
@@ -35,7 +35,7 @@ const splitRow = (line: string) =>
 
 const isTableSeparator = (line: string) => /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/.test(line);
 
-export const parseMarkdown = (source: string): Block[] => {
+const parseMarkdown = (source: string): Block[] => {
   const lines = source.replace(/\r\n/g, '\n').split('\n');
   const blocks: Block[] = [];
   let i = 0;

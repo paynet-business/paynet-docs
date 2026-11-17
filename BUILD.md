@@ -1,156 +1,85 @@
-# Команды для создания продакшн релиза
+# Сборка портала документации Paynet API
 
-## Сборка портала для адреса (как в CI)
+## Требования
+
+- **Node.js 22.12 или новее** (с ним идёт npm 10). Проверка: `node -v`.
+- Windows, macOS или Linux. Других программ не нужно: архивы SDK упаковываются командой `zip`, если она есть, иначе — средствами Node.js.
+- Git: текстовые файлы всегда извлекаются с переводом строки LF (задано в `.gitattributes`), в том числе в Windows.
+
+## Сборка для docs.paynet.md/api/ (основная команда)
 
 ```bash
 npm ci
-node scripts/check-docs.mjs
-# площадка для проверки (GitHub Pages)
-node scripts/build-site.mjs --site-url https://paynet-business.github.io/paynet-docs/ --out dist
-# основной сайт docs.paynet.md/api/ (строгая проверка: нет ссылок на GitHub Pages)
-node scripts/build-site.mjs --site-url https://docs.paynet.md/api/ --out dist-it --strict
-# архив для ИТ + README-IT.txt
-node scripts/build-release.mjs --dir dist-it --out release
-```
-
-## GitLab CI и Docker (для ИТ Paynet)
-
-- `.gitlab-ci.yml` — сборка в GitLab (проект `paynet-docs/paynet-psp`): проверки + `dist` под `DOCS_SITE_URL` (по умолчанию https://docs.paynet.md/api/).
-- `.github/workflows/send-to-gitlab.yml` — «передать в ИТ»: текущая версия одним коммитом в ветку `dev` GitLab (без `.github` и `.bolt`), отметка `release/v<версия>` на GitHub. Токен — секрет `GITLAB_TOKEN`.
-- `Dockerfile` + `deploy/nginx.conf` — образ nginx с готовой папкой `dist`, сайт по пути `/api/`: `docker build -t paynet-docs . && docker run -d -p 8080:80 paynet-docs`.
-- `.github/workflows/docker-check.yml` повторяет сборку GitLab в том же образе `node:22-bookworm` и проверяет контейнер (типы файлов, gzip, кэш, site-audit).
-
-При каждом пуше в `main` GitHub Actions делает обе сборки из одного коммита; архив для ИТ кладётся в ветку `ci/release`.
-
-## Основные команды
-
-### 1. Стандартная сборка
-```bash
-npm run build
-```
-
-### 2. Продакшн сборка с проверками
-```bash
 npm run build:prod
 ```
-Эта команда выполняет:
-- Проверку линтера (ESLint)
-- Сборку для продакшн
 
-### 3. Предварительный просмотр продакшн сборки
+Результат — папка `dist/`: её содержимое публикуется по адресу `https://docs.paynet.md/api/` (сайт работает из любой папки, ссылки относительные).
+
+`npm run build:prod` выполняет по порядку и останавливается на первой ошибке:
+
+1. ESLint (`npm run lint`).
+2. Проверка документации: векторы подписей, примеры кода, переводы EN/RU/RO, внутренние ссылки (`scripts/check-docs.mjs`).
+3. Нет старых адресов в исходниках (`scripts/check-urls.mjs`).
+4. Проверка типов TypeScript.
+5. Сборка сайта (`scripts/build-site.mjs --out dist --strict`): файлы для ИИ (`llms*.txt`, `docs/*.md`), коллекция Postman, архивы SDK и примера магазина, `robots.txt` и `sitemap.xml`, затем Vite и строгая проверка адресов в `dist`.
+
+Та же команда работает в GitLab CI (`.gitlab-ci.yml`, задание `docs-build`) и проверяется на GitHub (Linux и Windows) при каждом изменении.
+
+### Сборка для другого адреса (например, тестового сайта)
+
+Адрес задаётся переменной `DOCS_SITE_URL` (по умолчанию `https://docs.paynet.md/api/`):
+
 ```bash
-npm run preview:prod
-```
-Собирает проект и запускает локальный сервер для просмотра продакшн версии
-
-### 4. Только предварительный просмотр (если уже собрано)
-```bash
-npm run preview
-```
-
-## Дополнительные команды
-
-### Проверка типов TypeScript
-```bash
-npm run type-check
-```
-
-### Исправление ошибок линтера
-```bash
-npm run lint:fix
+# Linux / macOS
+DOCS_SITE_URL=https://test.example.md/api/ npm run build:prod
 ```
 
-### Очистка папки сборки
-```bash
-npm run clean
+```powershell
+# Windows PowerShell
+$env:DOCS_SITE_URL = "https://test.example.md/api/"; npm run build:prod
 ```
 
-## Полный процесс релиза
+```bat
+:: Windows cmd
+set DOCS_SITE_URL=https://test.example.md/api/&& npm run build:prod
+```
 
-1. **Проверка и исправление кода:**
-   ```bash
-   npm run lint:fix
-   npm run type-check
-   ```
+### Не использовать для публикации
 
-2. **Сборка для продакшн:**
-   ```bash
-   npm run build:prod
-   ```
+`npm run build` и `vite build` собирают только интерфейс: в результате нет файлов для ИИ, `docs/*.md`, Postman, архивов SDK и примера магазина, `robots.txt`/`sitemap.xml`, и адреса не проверяются. Эти команды — только для разработки.
 
-3. **Тестирование продакшн сборки:**
-   ```bash
-   npm run preview
-   ```
+## Проверка результата
 
-4. **Деплой файлов из папки `dist/`**
-
-## Структура продакшн сборки
-
-После выполнения `npm run build` в папке `dist/` будут созданы:
-- `index.html` - главная страница
-- `assets/` - оптимизированные CSS, JS и другие ресурсы
-- Все статические файлы
-
-## Деплой на различные платформы
-
-### Netlify
 ```bash
-# Сборка
+npm run preview      # открыть собранную папку dist на http://localhost:4173/
+```
+
+## Docker
+
+`Dockerfile` + `deploy/nginx.conf` — образ nginx с готовой папкой `dist`, сайт по пути `/api/`:
+
+```bash
 npm run build:prod
-
-# Деплой (если настроен Netlify CLI)
-netlify deploy --prod --dir=dist
+docker build -t paynet-docs .
+docker run -d -p 8080:80 paynet-docs      # http://localhost:8080/api/
 ```
 
-### Vercel
-```bash
-# Сборка
-npm run build:prod
+## GitLab CI и GitHub
 
-# Деплой (если настроен Vercel CLI)
-vercel --prod
-```
+- `.gitlab-ci.yml` — сборка в GitLab (проект `paynet-docs/paynet-psp`): `npm ci` + `npm run build:prod` → артефакт `dist` (30 дней); `docs-docker` — образ из `dist` (шаблон, запуск вручную).
+- `.github/workflows/send-to-gitlab.yml` — «передать в ИТ»: текущая версия одним коммитом в ветку `dev` GitLab (без `.github` и `.bolt`), отметка `release/v<версия>` на GitHub.
+- `.github/workflows/deploy.yml` — при каждом изменении: ESLint, проверки, тесты SDK, сборки для площадки проверки и для docs.paynet.md/api/, архив для ИТ (ветка `ci/release`); отдельно `npm audit`.
+- `.github/workflows/docker-check.yml` — повторяет сборку GitLab в образе `node:22-bookworm`, собирает на Windows, проверяет контейнер (типы файлов, gzip, кэш, проверка всех страниц сайта).
 
-### GitHub Pages
-```bash
-# Сборка
-npm run build:prod
+## Другие команды
 
-# Копирование файлов в gh-pages ветку или настройка GitHub Actions
-```
-
-### Обычный веб-сервер
-```bash
-# Сборка
-npm run build:prod
-
-# Копирование содержимого папки dist/ на сервер
-scp -r dist/* user@server:/path/to/web/root/
-```
-
-## Переменные окружения для продакшн
-
-Создайте файл `.env.production` для продакшн переменных:
-```env
-VITE_API_BASE_URL=https://ecom-api-test.paynet.md
-VITE_APP_TITLE=TPS API Documentation
-```
-
-## Оптимизация сборки
-
-Vite автоматически выполняет:
-- Минификацию JavaScript и CSS
-- Tree-shaking (удаление неиспользуемого кода)
-- Оптимизацию изображений
-- Разделение кода (code splitting)
-- Кэширование ресурсов
-
-## Проверка размера сборки
-
-После сборки Vite покажет размеры файлов:
-```
-dist/index.html                   0.45 kB
-dist/assets/index-abc123.css      8.23 kB │ gzip: 2.34 kB
-dist/assets/index-def456.js     142.67 kB │ gzip: 45.12 kB
-```
+| Команда | Что делает |
+|---|---|
+| `npm run dev` | сервер разработки с автообновлением |
+| `npm run lint` | ESLint |
+| `npm run lint:fix` | ESLint с автоисправлением |
+| `npm run type-check` | проверка типов TypeScript |
+| `node scripts/check-docs.mjs` | только проверка документации |
+| `node scripts/build-site.mjs --site-url https://paynet-business.github.io/paynet-docs/ --out dist` | копия для площадки проверки (GitHub Pages) |
+| `node scripts/build-release.mjs --dir dist --out release` | архив для ИТ + `README-IT.txt` (нужны `zip` и `zipinfo`) |
+| `npm audit` | известные уязвимости в зависимостях |

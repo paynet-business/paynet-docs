@@ -1,5 +1,9 @@
 # Jurnalul modificărilor
 
+## Documentația v3.5.1 — 17.11.2026
+
+- **Construirea portalului** (API-ul și textele documentației nu s-au schimbat): `npm run build:prod` construiește acum întregul portal pentru https://docs.paynet.md/api/ cu toate verificările, în Windows, macOS și Linux (Node.js 22.12+). Bibliotecile cu vulnerabilități cunoscute au fost eliminate sau actualizate (Vite 8, js-yaml 4.3). Calculatoarele de semnătură din portal calculează MD5 fără o bibliotecă terță; rezultatul este același (verificat pe vectorii de test publicați).
+
 ## Documentația v3.5 — 11.11.2026
 
 - **Exemplu de magazin: pornire pas cu pas pentru Windows, macOS și Linux** (găsit la rularea exemplului „ca un începător”): verificarea Node.js, `tar -xf` în loc de `unzip` (funcționează în Windows 10/11), de ce comanda rămâne `pending` și cum se trimite notificarea de test, tabel de depanare. Pagina comenzilor și pagina de revenire din magazin afișează acum comanda gata de folosit pentru trimiterea notificării. Vezi [Exemplu de magazin](#/guides/example-shop).

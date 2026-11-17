@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { zipFolder } from './zip.mjs';
 
 const root = process.cwd();
 const version = JSON.parse(fs.readFileSync(path.join(root, 'sdk/node/package.json'), 'utf8')).version;
@@ -38,8 +38,7 @@ for (const [lang, entries] of Object.entries(packages)) {
   for (const entry of entries) fs.cpSync(path.join(root, 'sdk', lang, entry), path.join(target, entry), { recursive: true });
   setDocsUrl(target);
   const zip = path.join(outDir, `paynet-ecom-sdk-${lang}-${version}.zip`);
-  fs.rmSync(zip, { force: true });
-  execFileSync('zip', ['-qr', zip, 'paynet-ecom-sdk'], { cwd: stage });
+  zipFolder(stage, 'paynet-ecom-sdk', zip);
   fs.rmSync(stage, { recursive: true, force: true });
   console.log(`${path.relative(root, zip)} (${fs.statSync(zip).size} bytes)`);
 }
@@ -53,8 +52,7 @@ for (const [lang, entries] of Object.entries(packages)) {
   });
   setDocsUrl(path.join(stage, 'node-shop'));
   const zip = path.join(outDir, 'paynet-example-shop-node.zip');
-  fs.rmSync(zip, { force: true });
-  execFileSync('zip', ['-qr', zip, 'node-shop'], { cwd: stage });
+  zipFolder(stage, 'node-shop', zip);
   fs.rmSync(stage, { recursive: true, force: true });
   console.log(`${path.relative(root, zip)} (${fs.statSync(zip).size} bytes)`);
 }

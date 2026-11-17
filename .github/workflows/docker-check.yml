@@ -1,5 +1,6 @@
 name: Docker / GitLab build check
-# Repeats .gitlab-ci.yml (build into dist in node:22-bookworm) and checks the Docker image from the Dockerfile.
+# Repeats .gitlab-ci.yml (npm run build:prod into dist in node:22-bookworm), checks the Docker image from the Dockerfile
+# and builds the same way on Windows (Paynet IT builds on Windows too).
 on:
   push:
     branches: [main]
@@ -14,12 +15,27 @@ jobs:
       - uses: actions/checkout@v4
       - run: apt-get update -qq && apt-get install -y -qq zip > /dev/null
       - run: npm ci --no-audit --no-fund
-      - run: node scripts/check-docs.mjs
-      - run: node scripts/check-urls.mjs
-      - run: npx tsc --noEmit -p tsconfig.app.json
-      - run: node scripts/build-site.mjs --site-url https://docs.paynet.md/api/ --out dist --strict
+      - name: npm run build:prod (ESLint, documentation checks, type check, build into dist for docs.paynet.md/api/)
+        run: npm run build:prod
       - uses: actions/upload-artifact@v4
         with: { name: dist, path: dist, retention-days: 3 }
+
+  windows-build:
+    name: npm run build:prod on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build:prod
+      - name: The example shop archive opens with the Windows tar
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory "$env:RUNNER_TEMP\shop" | Out-Null
+          tar -xf dist\sdk\paynet-example-shop-node.zip -C "$env:RUNNER_TEMP\shop"
+          if (-not (Test-Path "$env:RUNNER_TEMP\shop\node-shop\server.mjs")) { throw 'node-shop/server.mjs not found in the archive' }
+          Write-Output "OK: $((Get-ChildItem -Recurse -File "$env:RUNNER_TEMP\shop").Count) files"
 
   docker:
     name: Docker image + checks

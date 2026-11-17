@@ -9,7 +9,7 @@ stages:
   - build
   - package
 
-# 1. Checks + build into dist. Fails if any documentation check fails.
+# 1. Checks + build into dist (npm run build:prod). Fails if ESLint or any documentation check fails.
 docs-build:
   stage: build
   image: node:22-bookworm
@@ -17,10 +17,9 @@ docs-build:
     - apt-get update -qq && apt-get install -y -qq zip > /dev/null   # zip is used for the SDK archives
     - npm ci --no-audit --no-fund
   script:
-    - node scripts/check-docs.mjs                 # signatures, code samples, translations, links
-    - node scripts/check-urls.mjs                 # no old addresses in the sources
-    - npx tsc --noEmit -p tsconfig.app.json       # type check
-    - node scripts/build-site.mjs --site-url "$DOCS_SITE_URL" --out dist --strict
+    # ESLint → documentation checks (signatures, samples, translations, links) → no old addresses → type check →
+    # build into dist for $DOCS_SITE_URL (strict address check). Same command as on a developer's computer.
+    - npm run build:prod
   artifacts:
     name: "paynet-docs-dist-$CI_COMMIT_SHORT_SHA"
     paths:

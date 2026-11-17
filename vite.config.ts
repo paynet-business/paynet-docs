@@ -21,8 +21,8 @@ export default defineConfig({
             // Copy openapi.json to dist folder after build
             try {
               copyFileSync(
-                resolve(__dirname, 'src/openapi/openapi.json'),
-                resolve(__dirname, 'dist/openapi.json')
+                resolve(import.meta.dirname, 'src/openapi/openapi.json'),
+                resolve(import.meta.dirname, 'dist/openapi.json')
               );
               console.log('✓ Copied openapi.json to dist folder');
             } catch (error) {

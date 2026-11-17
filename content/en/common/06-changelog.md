@@ -1,5 +1,9 @@
 # Changelog
 
+## Documentation v3.5.1 — 17.11.2026
+
+- **Portal build** (no changes to the API or the documentation texts): `npm run build:prod` now builds the complete portal for https://docs.paynet.md/api/ with all checks, on Windows, macOS and Linux (Node.js 22.12+). Libraries with known vulnerabilities removed or updated (Vite 8, js-yaml 4.3). The signature calculators on the portal compute MD5 without a third-party library; the results are the same (checked on the published test vectors).
+
 ## Documentation v3.5 — 11.11.2026
 
 - **Example shop: step-by-step start for Windows, macOS and Linux** (found by running the example as a newcomer): checking Node.js, `tar -xf` instead of `unzip` (works on Windows 10/11), why an order stays `pending` and how to send the test notification, a troubleshooting table. The shop's Orders page and return page now show the ready command for sending the notification. See [Example shop](#/guides/example-shop).

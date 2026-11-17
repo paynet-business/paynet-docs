@@ -120,10 +120,11 @@ for (const lang of languages) {
     const file = path.join(os.tmpdir(), `paynet-sample-${lang}-${process.pid}.${cmd === 'php' ? 'php' : 'py'}`);
     fs.writeFileSync(file, code);
     try {
-      const out = execFileSync(cmd, [file], { encoding: 'utf8' }).trim().split('\n');
+      const out = execFileSync(cmd, [file], { encoding: 'utf8' }).trim().split(/\r?\n/);
       if (out[0] !== expectedCheckout || out[1] !== expectedSpecial) fail(`${label}: gives ${out.join(' / ')}, expected ${expectedCheckout} / ${expectedSpecial}`);
     } catch (e) {
-      if (e.code === 'ENOENT') console.log(`  (skipped: ${cmd} not installed)`);
+      // ENOENT: not installed; 9009: Windows "command not found" (e.g. the Microsoft Store python3 placeholder).
+      if (e.code === 'ENOENT' || e.status === 9009) console.log(`  (skipped: ${cmd} not installed)`);
       else fail(`${label}: ${String(e.message).split('\n')[0]}`);
     } finally { fs.rmSync(file, { force: true }); }
   };
@@ -165,7 +166,7 @@ for (const lang of languages) {
 
 // 4d. The SDK guide calls only methods / exports that exist in the SDKs.
 {
-  const sdk = await import(path.join(root, 'sdk', 'node', 'src', 'index.js'));
+  const sdk = await import(pathToFileURL(path.join(root, 'sdk', 'node', 'src', 'index.js')).href);
   const nodeMethods = new Set(Object.getOwnPropertyNames(sdk.PaynetClient.prototype));
   const phpSources = fs.readdirSync(path.join(root, 'sdk', 'php', 'src')).map((f) => fs.readFileSync(path.join(root, 'sdk', 'php', 'src', f), 'utf8')).join('\n');
   for (const lang of languages) {

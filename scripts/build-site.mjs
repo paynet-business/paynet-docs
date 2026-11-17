@@ -5,16 +5,18 @@
 //
 // Steps: AI files (llms*.txt, docs/*.md, mocks) → Postman → SDK and example-shop archives → robots.txt + sitemap.xml
 // → vite build into --out → address check of the result (check-urls; --strict also forbids the GitHub Pages copy).
-// Run `npm ci` and `node scripts/check-docs.mjs` before it. Requires Node.js 22 and the `zip` command.
+// Run `npm ci` and `node scripts/check-docs.mjs` before it (or use `npm run build:prod`, which runs all checks).
+// Requires Node.js 22.12 or newer; works on Windows, macOS and Linux (archives: `zip` if installed, otherwise built in).
+// Without --site-url the address is taken from DOCS_SITE_URL, otherwise https://docs.paynet.md/api/.
 import { execFileSync } from 'node:child_process';
 
 const args = process.argv.slice(2);
 const value = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
-const siteUrl = value('--site-url');
+const siteUrl = value('--site-url') || process.env.DOCS_SITE_URL || 'https://docs.paynet.md/api/';
 const out = value('--out') || 'dist';
 const strict = args.includes('--strict');
 if (!siteUrl || !/^https:\/\/.+/.test(siteUrl)) {
-  console.error('Usage: node scripts/build-site.mjs --site-url https://…/ --out <dir> [--strict]');
+  console.error('Usage: node scripts/build-site.mjs [--site-url https://…/] [--out <dir>] [--strict]');
   process.exit(1);
 }
 const SITE_URL = siteUrl.replace(/\/?$/, '/');

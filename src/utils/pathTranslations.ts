@@ -10,22 +10,25 @@ interface PathInfo {
 interface MethodInfo {
   method: string;
   info: PathInfo[];
-  responses?: {
-    [statusCode: string]: {
-      description: string;
-      content: {
-        type: string;
-        object: any;
-      };
-    };
+  responses?: TranslatedResponses;
+}
+
+/** Responses described in api_paths.json: Content-Type and an example body for each status code. */
+export interface TranslatedResponse {
+  description: string;
+  content: {
+    type: string;
+    object: unknown;
   };
 }
+
+export type TranslatedResponses = Record<string, TranslatedResponse>;
 
 interface PathData {
   [path: string]: MethodInfo[];
 }
 
-export function getMethodTranslation(path: string, method: string, language: Language, fallbackSummary?: string): { name: string; description: string; responses?: any } {
+export function getMethodTranslation(path: string, method: string, language: Language, fallbackSummary?: string): { name: string; description: string; responses?: TranslatedResponses } {
   // Find the path in the JSON data
   const pathsArray = apiPathsData.paths as PathData[];
   

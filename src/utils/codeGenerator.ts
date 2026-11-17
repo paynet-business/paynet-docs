@@ -1,16 +1,25 @@
 import { freshenRequestExample } from './sampleData';
-import { OpenAPISpec, Endpoint } from '../types/api';
+import { OpenAPISpec, EndpointRequestInput } from '../types/api';
 import { getAuthToken } from './apiTester';
+import { generateExampleValue, generateExampleFromSchema } from './exampleValues';
 
 // Types for code generation
-interface CodeSnippet {
+export interface CodeSnippet {
   language: string;
   label: string;
   source: string;
 }
 
+/** The request the code samples are generated for. */
+interface SnippetRequest {
+  method: string;
+  url: string;
+  headers: Record<string, string>;
+  body?: string;
+}
+
 interface GenerateCodeOptions {
-  endpoint: Endpoint;
+  endpoint: EndpointRequestInput;
   baseUrl: string;
   spec: OpenAPISpec;
 }
@@ -28,59 +37,11 @@ const LANGUAGE_CONFIGS = {
   ruby: { target: 'ruby', client: 'native' }
 };
 
-// Generate example values based on parameter type and schema
-function generateExampleValue(param: any, customValue?: string): any {
-  // Use custom value if provided
-  if (customValue !== undefined && customValue !== '') {
-    // Try to parse as appropriate type
-    const { type } = param.schema || param;
-    switch (type) {
-      case 'integer':
-        const intValue = parseInt(customValue);
-        return isNaN(intValue) ? customValue : intValue;
-      case 'number':
-        const numValue = parseFloat(customValue);
-        return isNaN(numValue) ? customValue : numValue;
-      case 'boolean':
-        return customValue.toLowerCase() === 'true';
-      default:
-        return customValue;
-    }
-  }
-
-  const { type, format, example, enum: enumValues, schema } = param.schema || param;
-  
-  if (example !== undefined) return example;
-  if (enumValues && enumValues.length > 0) return enumValues[0];
-  
-  switch (type) {
-    case 'string':
-      if (format === 'date') return '2024-01-01';
-      if (format === 'date-time') return '2024-01-01T00:00:00Z';
-      if (format === 'email') return 'user@example.com';
-      if (format === 'uuid') return '123e4567-e89b-12d3-a456-426614174000';
-      if (param.name?.toLowerCase().includes('id')) return 'example_id';
-      return `example_${param.name || 'value'}`;
-    case 'integer':
-      return 123;
-    case 'number':
-      return 123.45;
-    case 'boolean':
-      return true;
-    case 'array':
-      return [generateExampleValue({ schema: schema?.items || { type: 'string' } })];
-    case 'object':
-      return {};
-    default:
-      return `example_${param.name || 'value'}`;
-  }
-}
-
 // Build request object for openapi-snippet
-function buildRequestObject(endpoint: Endpoint, baseUrl: string, spec: OpenAPISpec, preferSandbox: boolean = true) {
+function buildRequestObject(endpoint: EndpointRequestInput, baseUrl: string, spec: OpenAPISpec, preferSandbox: boolean = true): SnippetRequest {
   // Get custom values if available
-  const customParameterValues = (endpoint as any).customParameterValues || {};
-  const customRequestBody = (endpoint as any).customRequestBody;
+  const customParameterValues = endpoint.customParameterValues || {};
+  const customRequestBody = endpoint.customRequestBody;
 
   // Extract path parameters from URL pattern (like {invoice_id})
   const pathParametersFromUrl = endpoint.path.match(/\{([^}]+)\}/g)?.map(match => ({
@@ -181,18 +142,19 @@ function buildRequestObject(endpoint: Endpoint, baseUrl: string, spec: OpenAPISp
       // Check for application/x-www-form-urlencoded first
       if (requestBody.content['application/x-www-form-urlencoded']) {
         // Build form data from custom parameter values
-        const formData: Record<string, any> = {};
+        const formData: Record<string, unknown> = {};
         const schema = requestBody.content['application/x-www-form-urlencoded'].schema;
+        const properties = schema?.properties;
         
-        if (schema && schema.properties) {
-          Object.keys(schema.properties).forEach(key => {
+        if (schema && properties) {
+          Object.keys(properties).forEach(key => {
             const customValue = customParameterValues[key];
             if (customValue !== undefined && customValue !== '') {
               formData[key] = customValue;
-            } else if (schema.properties[key].example !== undefined) {
-              formData[key] = schema.properties[key].example;
+            } else if (properties[key].example !== undefined) {
+              formData[key] = properties[key].example;
             } else {
-              formData[key] = generateExampleValue({ schema: schema.properties[key], name: key });
+              formData[key] = generateExampleValue({ schema: properties[key], name: key });
             }
           });
         }
@@ -208,7 +170,7 @@ function buildRequestObject(endpoint: Endpoint, baseUrl: string, spec: OpenAPISp
         if (customRequestBody) {
           try {
             body = JSON.parse(customRequestBody);
-          } catch (e) {
+          } catch {
             // If parsing fails, use as string
             body = customRequestBody;
           }
@@ -233,40 +195,9 @@ function buildRequestObject(endpoint: Endpoint, baseUrl: string, spec: OpenAPISp
   };
 }
 
-// Generate example object from JSON schema
-function generateExampleFromSchema(schema: any): any {
-  if (schema.example) return schema.example;
-  
-  switch (schema.type) {
-    case 'object':
-      const obj: any = {};
-      if (schema.properties) {
-        Object.keys(schema.properties).forEach(key => {
-          obj[key] = generateExampleFromSchema(schema.properties[key]);
-        });
-      }
-      return obj;
-    case 'array':
-      return schema.items ? [generateExampleFromSchema(schema.items)] : [];
-    case 'string':
-      if (schema.format === 'date') return '2024-01-01';
-      if (schema.format === 'date-time') return '2024-01-01T00:00:00Z';
-      if (schema.format === 'email') return 'user@example.com';
-      return schema.enum?.[0] || 'example_string';
-    case 'integer':
-      return schema.enum?.[0] || 123;
-    case 'number':
-      return schema.enum?.[0] || 123.45;
-    case 'boolean':
-      return true;
-    default:
-      return null;
-  }
-}
-
 // Fallback code generators for when openapi-snippet fails
 const fallbackGenerators = {
-  curl: (request: any) => {
+  curl: (request: SnippetRequest) => {
     const headers = Object.entries(request.headers)
       .map(([key, value]) => `-H "${key}: ${value}"`)
       .join(' \\\n  ');
@@ -276,7 +207,7 @@ const fallbackGenerators = {
     return `curl -X ${request.method} \\\n  "${request.url}" \\\n  ${headers}${body}`;
   },
   
-  javascript: (request: any) => {
+  javascript: (request: SnippetRequest) => {
     const options = {
       method: request.method,
       headers: request.headers,
@@ -289,7 +220,7 @@ const data = await response.json();
 console.log(data);`;
   },
   
-  python: (request: any) => {
+  python: (request: SnippetRequest) => {
     const headers = JSON.stringify(request.headers, null, 2).replace(/"/g, "'");
     const body = request.body ? `\n\ndata = ${request.body}\nresponse = requests.${request.method.toLowerCase()}(url, headers=headers, json=data)` 
                               : `\n\nresponse = requests.${request.method.toLowerCase()}(url, headers=headers)`;
@@ -304,7 +235,7 @@ data = response.json()
 print(data)`;
   },
   
-  php: (request: any) => {
+  php: (request: SnippetRequest) => {
     const headers = Object.entries(request.headers)
       .map(([key, value]) => `    '${key}: ${value}'`)
       .join(',\n');
@@ -331,7 +262,7 @@ print_r($data);
 ?>`;
   },
   
-  java: (request: any) => {
+  java: (request: SnippetRequest) => {
     const headers = Object.entries(request.headers)
       .map(([key, value]) => `    .header("${key}", "${value}")`)
       .join('\n');
@@ -358,7 +289,7 @@ HttpResponse<String> response = client.send(request,
 System.out.println(response.body());`;
   },
   
-  csharp: (request: any) => {
+  csharp: (request: SnippetRequest) => {
     const headers = Object.entries(request.headers)
       .map(([key, value]) => `        client.DefaultRequestHeaders.Add("${key}", "${value}");`)
       .join('\n');

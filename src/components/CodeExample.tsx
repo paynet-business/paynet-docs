@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Copy, Check, Send, Loader2, CheckCircle, XCircle, Pencil } from 'lucide-react';
-import { Endpoint } from '../types/api';
+import { Endpoint, SchemaObject } from '../types/api';
 import { TranslationResources } from '../types/language';
-import { generateCodeSnippets } from '../utils/codeGenerator';
+import { generateCodeSnippets, CodeSnippet } from '../utils/codeGenerator';
 import { OpenAPISpec } from '../types/api';
 import { freshenRequestExample } from '../utils/sampleData';
 import { buildTestRequest, executeApiTest, formatApiResponse, ApiTestResponse, getAuthToken, clearAuthToken } from '../utils/apiTester';
@@ -17,12 +17,12 @@ interface CodeExampleProps {
 export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spec, t }) => {
   const [activeLanguage, setActiveLanguage] = useState('curl');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
-  const [codeSnippets, setCodeSnippets] = useState<Record<string, any>>({});
+  const [codeSnippets, setCodeSnippets] = useState<Record<string, CodeSnippet>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [parameterValues, setParameterValues] = useState<Record<string, Record<string, string>>>({});
   const [requestBodyValue, setRequestBodyValue] = useState<Record<string, string>>({});
   const [isTestingApi, setIsTestingApi] = useState(false);
-  const [testResponses, setTestResponses] = useState<Record<string, ApiTestResponse>>({});
+  const [testResponses, setTestResponses] = useState<Record<string, ApiTestResponse | null>>({});
   const [showTestResponse, setShowTestResponse] = useState<Record<string, boolean>>({});
   const [currentToken, setCurrentToken] = useState<string | null>(null);
 
@@ -100,6 +100,9 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
         [endpoint.id]: initialValues
       }));
     }
+    // Runs only when the method changes: allParameters and requestBody are rebuilt on every render,
+    // listing them would reset the values the user is typing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endpoint.id, allParameters.length, hasFormUrlencodedBody]);
 
   // Initialize request body value
@@ -123,6 +126,8 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
   }, [endpoint.id, hasJsonRequestBody, requestBody]);
 
   const hasEditor = hasParameters || !!hasFormUrlencodedBody || !!hasRequestBody;
+  const parameterValuesKey = JSON.stringify(currentParameterValues);
+  const availableLanguagesKey = availableLanguages.join(',');
   const EDIT_TAB = 'edit';
 
   // Build code snippets from the current request (debounced while typing).
@@ -143,7 +148,7 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
     const build = async () => {
       try {
         const snippets = await generateCodeSnippets({
-          endpoint: { ...endpoint, customParameterValues: currentParameterValues, customRequestBody: currentRequestBodyValue } as any,
+          endpoint: { ...endpoint, customParameterValues: currentParameterValues, customRequestBody: currentRequestBodyValue },
           baseUrl,
           spec,
         });
@@ -163,11 +168,15 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [endpoint.id, baseUrl, spec, currentRequestBodyValue, JSON.stringify(currentParameterValues)]);
+    // The parameter values are compared by content (parameterValuesKey): the object itself is new on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endpoint.id, baseUrl, spec, currentRequestBodyValue, parameterValuesKey]);
 
   // When the method changes, open the editable request first.
   React.useEffect(() => {
     setActiveLanguage(hasEditor ? EDIT_TAB : 'curl');
+    // Only when the method changes; the user may switch tabs freely afterwards.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endpoint.id]);
 
   React.useEffect(() => {
@@ -175,7 +184,9 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
     if (availableLanguages.length > 0 && !availableLanguages.includes(activeLanguage)) {
       setActiveLanguage(availableLanguages[0]);
     }
-  }, [availableLanguages.join(','), activeLanguage]);
+    // The list is compared by content (availableLanguagesKey): the array itself is new on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [availableLanguagesKey, activeLanguage]);
 
   const handleCopy = async (code: string, language: string) => {
     try {
@@ -210,7 +221,7 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
     setIsTestingApi(true);
     setTestResponses(prev => ({
       ...prev,
-      [endpoint.id]: null as any
+      [endpoint.id]: null
     }));
     
     try {
@@ -268,12 +279,13 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
     );
   }
 
-  const formUrlencodedProps: [string, any][] = hasFormUrlencodedBody
+  const formUrlencodedProps: [string, SchemaObject][] = hasFormUrlencodedBody
     ? Object.entries(requestBody.content['application/x-www-form-urlencoded']?.schema?.properties || {})
     : [];
-  const formUrlencodedRequired: string[] = hasFormUrlencodedBody
-    ? requestBody.content['application/x-www-form-urlencoded']?.schema?.required || []
-    : [];
+  const formUrlencodedRequiredList = hasFormUrlencodedBody
+    ? requestBody.content['application/x-www-form-urlencoded']?.schema?.required
+    : undefined;
+  const formUrlencodedRequired: string[] = Array.isArray(formUrlencodedRequiredList) ? formUrlencodedRequiredList : [];
   const bodyLines = Math.max(3, currentRequestBodyValue.split('\n').length);
   const isEditTab = activeLanguage === EDIT_TAB;
   const copySource = isEditTab ? currentRequestBodyValue : codeSnippets[activeLanguage]?.source || '';
@@ -410,7 +422,7 @@ export const CodeExample: React.FC<CodeExampleProps> = ({ endpoint, baseUrl, spe
                     onClick={() => {
                       try {
                         handleRequestBodyChange(JSON.stringify(JSON.parse(currentRequestBodyValue), null, 2));
-                      } catch (e) {
+                      } catch {
                         // Invalid JSON, keep as typed
                       }
                     }}

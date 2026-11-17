@@ -32,6 +32,9 @@ jobs:
 
       - run: npm ci
 
+      - name: ESLint (same as npm run lint in build:prod)
+        run: npm run lint
+
       - name: Check documentation (signature vectors, samples, links, translations)
         run: node scripts/check-docs.mjs
 
@@ -81,6 +84,16 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+  # Known vulnerabilities in the dependencies (npm audit). Does not block the Pages deploy, but the run turns red.
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm audit
 
   deploy:
     needs: build

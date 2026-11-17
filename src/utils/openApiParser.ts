@@ -55,7 +55,7 @@ export function parseOpenAPI(spec: OpenAPISpec, language: Language = 'en'): Serv
       }
 
       const endpoint: Endpoint = {
-        id: `${method}-${path}`.replace(/[{}\/]/g, '-').replace(/-+/g, '-'),
+        id: `${method}-${path}`.replace(/[{}/]/g, '-').replace(/-+/g, '-'),
         method: method.toUpperCase(),
         path,
         summary: getMethodTranslation(path, method.toUpperCase(), language, operation.summary).name,

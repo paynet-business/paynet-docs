@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bell, ChevronDown, ChevronRight, Copy, Check, FileText } from 'lucide-react';
 import { getAuthToken, setAuthToken } from '../utils/apiTester';
-import CryptoJS from 'crypto-js';
+import { md5Base64 } from '../utils/md5';
 import { Language } from '../types/language';
 import ParamList from './ParamList';
 import { useLastOrder } from '../utils/lastOrder';
@@ -158,7 +158,7 @@ export const ClientServerNotification: React.FC<ClientServerNotificationProps> =
   const [isGettingPaymentStatus, setIsGettingPaymentStatus] = React.useState(false);
   const [paymentStatusResult, setPaymentStatusResult] = React.useState('');
   const [paymentStatusError, setPaymentStatusError] = React.useState('');
-  const [paymentInfoForNotification, setPaymentInfoForNotification] = React.useState<any | null>(null);
+  const [paymentInfoForNotification, setPaymentInfoForNotification] = React.useState<Record<string, unknown> | null>(null);
   const [hasCompletedGet, setHasCompletedGet] = React.useState(false);
   const [verifierLanguage, setVerifierLanguage] = React.useState<'node' | 'php'>('node');
   const [copiedVerifierCode, setCopiedVerifierCode] = React.useState(false);
@@ -230,9 +230,12 @@ export const ClientServerNotification: React.FC<ClientServerNotificationProps> =
       setIsSendingNotification(false);
       return;
     }
-    const firstDefined = (...values: any[]) => values.find((value) => value !== undefined && value !== null);
-    const paymentData = firstDefined(paymentInfoForNotification?.payment, paymentInfoForNotification?.Payment) ?? {};
-    const payerData = firstDefined(paymentInfoForNotification?.payer, paymentInfoForNotification?.Payer, paymentData?.payer, paymentData?.Payer) ?? {};
+    const firstDefined = (...values: unknown[]) => values.find((value) => value !== undefined && value !== null);
+    // Fields of a JSON object of unknown shape; anything that is not an object reads as an empty object.
+    const asRecord = (value: unknown): Record<string, unknown> =>
+      value !== null && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+    const paymentData = asRecord(firstDefined(paymentInfoForNotification?.payment, paymentInfoForNotification?.Payment));
+    const payerData = asRecord(firstDefined(paymentInfoForNotification?.payer, paymentInfoForNotification?.Payer, paymentData?.payer, paymentData?.Payer));
 
     const paymentId = Number(
       firstDefined(
@@ -257,8 +260,8 @@ export const ClientServerNotification: React.FC<ClientServerNotificationProps> =
       firstDefined(
         paymentData?.Amount,
         paymentData?.amount,
-        paymentInfoForNotification?.amount?.amount,
-        paymentInfoForNotification?.amount?.requestAmount,
+        asRecord(paymentInfoForNotification?.amount).amount,
+        asRecord(paymentInfoForNotification?.amount).requestAmount,
         paymentInfoForNotification?.amount,
         0
       )
@@ -284,7 +287,7 @@ export const ClientServerNotification: React.FC<ClientServerNotificationProps> =
       firstDefined(
         paymentData?.Customer,
         paymentData?.customer,
-        paymentInfoForNotification?.customer?.code,
+        asRecord(paymentInfoForNotification?.customer).code,
         typeof paymentInfoForNotification?.customer === 'string' ? paymentInfoForNotification.customer : undefined,
         paymentInfoForNotification?.customerCode
       ) ?? null;
@@ -419,7 +422,7 @@ export const ClientServerNotification: React.FC<ClientServerNotificationProps> =
       normalize(mockNotification.Payment.Id) +
       normalize(mockNotification.Payment.Merchant) +
       normalize(mockNotification.Payment.StatusDate);
-    const hash = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(preparedString + notificationSecretKey.trim()));
+    const hash = md5Base64(preparedString + notificationSecretKey.trim());
     setSentNotificationHash(hash);
     setSentPreparedString(preparedString);
 
@@ -455,7 +458,7 @@ export const ClientServerNotification: React.FC<ClientServerNotificationProps> =
     }
   };
 
-  const resolvePaymentStatus = (data: any): 'paid' | 'fail' => {
+  const resolvePaymentStatus = (data: Record<string, unknown> | null): 'paid' | 'fail' => {
     const statusTextCandidates = [
       data?.eventType,
       data?.paymentStatus,
@@ -613,16 +616,16 @@ function verifyNotificationHash(notification, secretKey, headerHash) {
       }
 
       const rawText = await response.text();
-      let data: any = null;
+      let data: unknown = null;
       try {
         data = rawText ? JSON.parse(rawText) : null;
       } catch {
         data = null;
       }
 
-      const normalizedData =
+      const normalizedData: Record<string, unknown> =
         data && typeof data === 'object'
-          ? { ...data, _httpStatus: response.status, _transactionId: trimmedTransactionId }
+          ? { ...(data as Record<string, unknown>), _httpStatus: response.status, _transactionId: trimmedTransactionId }
           : { _httpStatus: response.status, _transactionId: trimmedTransactionId };
 
       setPaymentInfoForNotification(normalizedData);

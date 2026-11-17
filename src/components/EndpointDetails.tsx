@@ -1,6 +1,6 @@
 import React from 'react';
 import { Copy, Check, FileText } from 'lucide-react';
-import { Endpoint } from '../types/api';
+import { Endpoint, OpenAPISpec, SchemaObject, MediaTypeObject } from '../types/api';
 import { TranslationResources, Language } from '../types/language';
 import { AuthenticationBlock } from './AuthenticationBlock';
 import { AiMenu } from './AiMenu';
@@ -18,7 +18,7 @@ interface EndpointDetailsProps {
   }>;
   t: TranslationResources;
   language: Language;
-  spec?: any; // Add spec prop to access full OpenAPI specification
+  spec?: Partial<OpenAPISpec>; // full OpenAPI specification (request bodies, component schemas)
   onNavigate?: (href: string) => void;
 }
 
@@ -67,10 +67,15 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
   // Determine which responses to use - from api_paths.json or OpenAPI
   const responsesToShow = methodTranslation.responses || endpoint.responses;
   const responseKeys = Object.keys(responsesToShow);
+  const responseKeysKey = responseKeys.join(',');
+  // The active response: from api_paths.json (example body) or from the OpenAPI specification (schema).
+  const activeTranslatedResponse = methodTranslation.responses?.[activeResponseCode];
+  const activeSpecResponse = methodTranslation.responses ? undefined : endpoint.responses[activeResponseCode];
+  const activeResponse = activeTranslatedResponse ?? activeSpecResponse;
   // Get request body from OpenAPI spec
   const requestBody = spec?.paths?.[endpoint.path]?.[endpoint.method.toLowerCase()]?.requestBody;
   const normalizePropertyName = (name: string) => name.toLowerCase();
-  const resolveSchemaRef = (schema: any): any => {
+  const resolveSchemaRef = (schema: SchemaObject | null | undefined): SchemaObject | null => {
     if (!schema) return null;
     if (schema.$ref && typeof schema.$ref === 'string') {
       const refParts = schema.$ref.split('/');
@@ -84,17 +89,17 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
     if (value === null) return 'null';
     return typeof value;
   };
-  const findBestMatchingComponentSchema = (example: Record<string, unknown>): any => {
+  const findBestMatchingComponentSchema = (example: Record<string, unknown>): SchemaObject | null => {
     const schemas = spec?.components?.schemas;
     if (!schemas || typeof schemas !== 'object') return null;
 
     const exampleKeys = Object.keys(example).map(normalizePropertyName);
     if (exampleKeys.length === 0) return null;
 
-    let bestSchema: any = null;
+    let bestSchema: SchemaObject | null = null;
     let bestScore = 0;
 
-    Object.values(schemas).forEach((candidate: any) => {
+    Object.values(schemas).forEach((candidate: SchemaObject) => {
       if (!candidate || candidate.type !== 'object' || !candidate.properties) return;
 
       const candidatePropertyNames = Object.keys(candidate.properties).map(normalizePropertyName);
@@ -113,7 +118,7 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
     if (!requestBody?.content) return [];
 
     const jsonContent = requestBody.content['application/json'];
-    const fallbackContent = Object.values(requestBody.content)[0] as any;
+    const fallbackContent: MediaTypeObject | undefined = Object.values(requestBody.content)[0];
     const selectedContent = jsonContent || fallbackContent;
     if (!selectedContent) return [];
 
@@ -135,7 +140,7 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
     const rows: RequestBodyRow[] = [];
     const seen = new Set<string>();
 
-    const getRowType = (schemaNode: any, value: unknown): string => {
+    const getRowType = (schemaNode: SchemaObject | null, value: unknown): string => {
       if (schemaNode?.type) return schemaNode.type;
       if (schemaNode?.$ref) return 'object';
       return inferType(value);
@@ -148,7 +153,7 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
     };
 
     const walk = (
-      schemaNode: any,
+      schemaNode: SchemaObject | null | undefined,
       exampleNode: unknown,
       parentPath = '',
       required = false,
@@ -168,8 +173,8 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
       }
 
       if (nodeType === 'object') {
-        const schemaProps = resolvedNode?.properties || {};
-        const requiredSet = new Set(resolvedNode?.required || []);
+        const schemaProps: Record<string, SchemaObject> = resolvedNode?.properties || {};
+        const requiredSet = new Set(Array.isArray(resolvedNode?.required) ? resolvedNode.required : []);
         const exampleObj = exampleNode && typeof exampleNode === 'object' && !Array.isArray(exampleNode)
           ? (exampleNode as Record<string, unknown>)
           : {};
@@ -201,6 +206,8 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
     }
 
     return rows;
+    // resolveSchemaRef and findBestMatchingComponentSchema only read spec, which is listed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestBody, spec, t.common.description, language]);
   
   // Set initial active response code - prefer 200, then first available
@@ -210,7 +217,9 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
       const preferredCode = responseKeys.includes('200') ? '200' : responseKeys[0];
       setActiveResponseCode(preferredCode);
     }
-  }, [responseKeys.join(',')]); // Use join to create stable dependency
+    // The list is compared by content (responseKeysKey): the array itself is new on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responseKeysKey]);
 
   const handleCopyUrl = async (url: string) => {
     try {
@@ -225,12 +234,12 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
 
 
   // Schema properties as parameter-list items
-  const schemaItems = (schema: any): ParamItem[] =>
+  const schemaItems = (schema: SchemaObject | null | undefined): ParamItem[] =>
     !schema || !schema.properties ? [] :
-    Object.entries(schema.properties).map(([key, prop]: [string, any]) => ({
+    Object.entries(schema.properties).map(([key, prop]: [string, SchemaObject]) => ({
       name: key,
       type: prop.type || 'object',
-      required: schema.required?.includes(key) || prop.required === true || false,
+      required: (Array.isArray(schema.required) && schema.required.includes(key)) || prop.required === true || false,
       description: translateOpenApiDescription(prop.description, language) || (prop.example !== undefined ? String(prop.example) : ''),
     }));
 
@@ -400,7 +409,7 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
           )}
           
           {/* Schema Properties Table */}
-          {requestBody.content && Object.entries(requestBody.content).map(([contentType, content]: [string, any]) => {
+          {requestBody.content && Object.entries(requestBody.content).map(([contentType, content]: [string, MediaTypeObject]) => {
             // Show example if available
             if (content.example && contentType === 'application/json') {
               const exampleJson = JSON.stringify(content.example, null, 2);
@@ -493,7 +502,7 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
         </div>
 
         {/* Active Response Details */}
-        {activeResponseCode && responsesToShow[activeResponseCode] && (
+        {activeResponseCode && activeResponse && (
           <div className="border border-paynet-gray-200 rounded-lg p-4 bg-paynet-gray-50 w-full">
             <div className="mb-4">
               <div className="flex items-center gap-3 mb-3">
@@ -506,36 +515,33 @@ export const EndpointDetails: React.FC<EndpointDetailsProps> = ({ endpoint, base
                   {activeResponseCode}
                 </span>
                 <span className="text-sm font-medium text-paynet-gray-900">
-                  {methodTranslation.responses 
-                    ? responsesToShow[activeResponseCode].description 
-                    : responsesToShow[activeResponseCode].description
-                  }
+                  {activeResponse.description}
                 </span>
               </div>
               
               {/* Content Type and Response Body */}
-              {methodTranslation.responses && responsesToShow[activeResponseCode].content ? (
+              {activeTranslatedResponse?.content ? (
                 // From api_paths.json
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-medium text-paynet-gray-600">Content-Type:</span>
                     <span className="text-xs font-mono bg-paynet-gray-100 px-2 py-1 rounded-md text-paynet-gray-800 font-semibold">
-                      {responsesToShow[activeResponseCode].content.type}
+                      {activeTranslatedResponse.content.type}
                     </span>
                   </div>
                   <div>
                     <span className="text-xs font-medium text-paynet-gray-600 block mb-2">Response Body:</span>
                     <pre className="bg-white p-4 rounded-lg text-sm overflow-x-auto border border-paynet-gray-200 w-full font-mono">
-                      <code>{JSON.stringify(responsesToShow[activeResponseCode].content.object, null, 2)}</code>
+                      <code>{JSON.stringify(activeTranslatedResponse.content.object, null, 2)}</code>
                     </pre>
                   </div>
                 </div>
-              ) : responsesToShow[activeResponseCode].content ? (
+              ) : activeSpecResponse?.content ? (
                 // From OpenAPI
                 <div>
                   <span className="text-xs font-medium text-paynet-gray-600 block mb-2">Schema:</span>
                   <pre className="bg-white p-4 rounded-lg text-sm overflow-x-auto border border-paynet-gray-200 w-full font-mono">
-                    <code>{JSON.stringify(responsesToShow[activeResponseCode].content['application/json']?.schema, null, 2)}</code>
+                    <code>{JSON.stringify(activeSpecResponse.content['application/json']?.schema, null, 2)}</code>
                   </pre>
                 </div>
               ) : null}
