@@ -1,0 +1,115 @@
+{
+  "orders": {
+    "1795003472890": {
+      "order": 1795003472890,
+      "amount": 300,
+      "customerCode": "e2e-shop-customer",
+      "requestBody": {
+        "Order": 1795003472890,
+        "SaleAreaCode": "onlidocumentation_md",
+        "LinkUrlSuccess": "http://localhost:3000/return/success?order=1795003472890",
+        "LinkUrlCancel": "http://localhost:3000/return/cancel?order=1795003472890",
+        "Customer": {
+          "Code": "e2e-shop-customer",
+          "NameFirst": "Demo",
+          "NameLast": "Customer",
+          "email": "customer@example.com",
+          "PhoneNumber": "37360000000"
+        },
+        "Currency": 498,
+        "ExpiryDate": "2026-11-19T14:04:32",
+        "Services": [
+          {
+            "Name": "Demo product",
+            "Description": "Order #1795003472890",
+            "Amount": 300
+          }
+        ],
+        "MoneyType": "All",
+        "Lang": "EN"
+      },
+      "state": "partially refunded",
+      "createdAt": "2026-11-18T12:04:32.901Z",
+      "paymentId": 330564,
+      "paymentLink": "https://test.paynet.md/ecom/getecom/330564?s=e6eaadb50333ce505a6f39880e778d96",
+      "paidAmount": 300,
+      "paidAt": "2026-11-18T12:05:12.073Z",
+      "refund": {
+        "paymentId": 330564,
+        "saleAreaCode": "onlidocumentation_md",
+        "customer": "e2e-shop-customer",
+        "eventDate": "18.11.2026 14:05:16",
+        "refundType": "partial",
+        "currency": 498,
+        "amount": 100,
+        "merchant": "265505",
+        "cardMask": "411111******1111",
+        "cardLinkHash": "1055249_e1a64cb3f28d4d49a310f08197d0b2a1",
+        "moneyType": "CYBER_SOURCE"
+      }
+    },
+    "1795003516286": {
+      "order": 1795003516286,
+      "amount": 300,
+      "customerCode": "e2e-shop-customer",
+      "requestBody": {
+        "Order": 1795003516286,
+        "SaleAreaCode": "onlidocumentation_md",
+        "LinkUrlSuccess": "http://localhost:3000/return/success?order=1795003516286",
+        "LinkUrlCancel": "http://localhost:3000/return/cancel?order=1795003516286",
+        "Customer": {
+          "Code": "e2e-shop-customer",
+          "NameFirst": "Demo",
+          "NameLast": "Customer",
+          "email": "customer@example.com",
+          "PhoneNumber": "37360000000"
+        },
+        "Currency": 498,
+        "ExpiryDate": "2026-11-19T14:05:16",
+        "Services": [
+          {
+            "Name": "Demo product",
+            "Description": "Order #1795003516286",
+            "Amount": 300
+          }
+        ],
+        "MoneyType": "All",
+        "Lang": "EN"
+      },
+      "state": "pending",
+      "createdAt": "2026-11-18T12:05:16.287Z",
+      "paymentId": 330565,
+      "paymentLink": "https://test.paynet.md/ecom/getecom/330565?s=956a2693b0b14df8995ec56d72ee056c"
+    }
+  },
+  "notifications": {
+    "330564": {
+      "receivedAt": "2026-11-18T12:05:11.108Z",
+      "notification": {
+        "Eventid": 7704205,
+        "EventType": "PAID",
+        "Message": "Request processed successfully",
+        "EventDate": "2026-11-18T14:04:59",
+        "Payment": {
+          "Id": 330564,
+          "ExternalId": 1795003472890,
+          "SaleAreaCode": "onlidocumentation_md",
+          "Customer": "e2e-shop-customer",
+          "StatusDate": "2026-11-18T14:04:59",
+          "Amount": 300,
+          "PaidAmount": 300,
+          "Merchant": "265505",
+          "MoneyType": "CARD",
+          "CardLinkHash": "1055249_e1a64cb3f28d4d49a310f08197d0b2a1"
+        }
+      }
+    }
+  },
+  "cards": {
+    "e2e-shop-customer": {
+      "cardLinkHash": "1055249_e1a64cb3f28d4d49a310f08197d0b2a1",
+      "savedAt": "2026-11-18T12:05:12.073Z"
+    }
+  },
+  "review": []
+}

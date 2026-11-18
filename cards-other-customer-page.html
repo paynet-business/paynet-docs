@@ -1,0 +1,1234 @@
+<!DOCTYPE html><html class="js  webpalpha webpanimation webplossless webp webp-alpha webp-animation webp-lossless whatinput-types-initial" lang="en" data-useragent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.6778.33 Safari/537.36" data-whatinput="initial" data-whatintent="initial"><head><meta http-equiv="origin-trial" content="A7vZI3v+Gz7JfuRolKNM4Aff6zaGuT7X0mf3wtoZTnKv6497cVMnhy03KDqX7kBz/q/iidW7srW31oQbBt4VhgoAAACUeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGUuY29tOjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==">
+	
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+
+	<title>Paynet - Checkout | onlidocumentation.md</title>
+
+	<link href="/content/images/paynet-logo-simple.png" rel="shortcut icon" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/content/images/paynet-logo-simple.png">
+	<meta name="description" content="The easiest way to pay on-line">
+	<meta name="keywords" content="pay, e-commerce, e-wallet">
+	
+	<link rel="preload" href="/FrontSources/Custom.css?v=MGYDDfT5jaNTUQ4-TXTMv5M2xwC4LpkUSDr1zzBUgcg1" as="style">
+
+	<link rel="preload" href="/Views/Shared/Layout/css?v=U_wIemeoCfl195m3mdQcpQVQ1-8B-bCPikVQsv5DCgs1" as="style">
+
+	<link rel="stylesheet" href="/FrontSources/Custom.css?v=MGYDDfT5jaNTUQ4-TXTMv5M2xwC4LpkUSDr1zzBUgcg1" as="style">
+
+	<link rel="stylesheet" href="/Views/Shared/Layout/css?v=U_wIemeoCfl195m3mdQcpQVQ1-8B-bCPikVQsv5DCgs1" as="style">
+
+
+	
+
+	
+	
+
+	
+	<link rel="preload" href="/Views/Shared/LayoutPSP/css?v=U1xOjK-s1k-qabXabhdxZ6ubFBaU9k-4UmpzTdhnsxo1" as="style">
+
+	<link rel="stylesheet" href="/Views/Shared/LayoutPSP/css?v=U1xOjK-s1k-qabXabhdxZ6ubFBaU9k-4UmpzTdhnsxo1" as="style">
+
+	<link rel="stylesheet" href="/spa/styles.css">
+
+	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	
+	<link rel="stylesheet" href="/frontsources/views/ecom/main-cssfeatures.css" as="style">
+
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+	<link rel="preload" href="/Views/Ecom/Main/css?v=kr1Dd2zofndHgdgq_WM4KC1UY7bMdA2loorM6CZPchA1" as="style">
+
+	<link rel="stylesheet" href="/Views/Ecom/Main/css?v=kr1Dd2zofndHgdgq_WM4KC1UY7bMdA2loorM6CZPchA1" as="style">
+
+
+
+	
+
+	<noscript>
+		<link href="/FrontSources/Custom.css?v=MGYDDfT5jaNTUQ4-TXTMv5M2xwC4LpkUSDr1zzBUgcg1" rel="stylesheet"/>
+
+		<link href="/Views/Shared/Layout/css?v=U_wIemeoCfl195m3mdQcpQVQ1-8B-bCPikVQsv5DCgs1" rel="stylesheet"/>
+
+<link href="/Views/Shared/LayoutPSP/css?v=U1xOjK-s1k-qabXabhdxZ6ubFBaU9k-4UmpzTdhnsxo1" rel="stylesheet"/>
+		<link href="/Views/Ecom/Main/css?v=kr1Dd2zofndHgdgq_WM4KC1UY7bMdA2loorM6CZPchA1" rel="stylesheet"/>
+	</noscript>
+	<script type="text/javascript" async="" charset="utf-8" src="https://www.gstatic.com/recaptcha/releases/4i3aN5wAweL7i3ADI7BSX4B-/recaptcha__en.js" crossorigin="anonymous" integrity="sha384-9kWldX1GBV0fyoXG9yQ5yIrkqyWnjgRBm6nILiadZBzlNoT3mlsHud6Afn9RimQk" nonce=""></script><script nonce="">function iOS(){return["iPad Simulator","iPhone Simulator","iPod Simulator","iPad","iPhone","iPod","MacIntel"].includes(navigator.platform)||navigator.userAgent.includes("Mac")&&"ontouchend"in document}document.documentElement.setAttribute("data-useragent",navigator.userAgent);iOS()?document.documentElement.setAttribute("data-ios",""):document.documentElement.removeAttribute("data-ios"),function(n){"use strict";var t=function(t,i,r,u){function v(n){if(e.body)return n();setTimeout(function(){v(n)})}function a(){f.addEventListener&&f.removeEventListener("load",a);f.media=r||"all"}var e=n.document,f=e.createElement("link"),o,c,l,s,h;if(i?o=i:(c=(e.body||e.getElementsByTagName("head")[0]).childNodes,o=c[c.length-1]),l=e.styleSheets,u)for(s in u)u.hasOwnProperty(s)&&f.setAttribute(s,u[s]);return f.rel="stylesheet",f.href=t,f.media="only x",v(function(){o.parentNode.insertBefore(f,i?o:o.nextSibling)}),h=function(n){for(var i=f.href,t=l.length;t--;)if(l[t].href===i)return n();setTimeout(function(){h(n)})},f.addEventListener&&f.addEventListener("load",a),f.onloadcssdefined=h,h(a),f};typeof exports!="undefined"?exports.loadCSS=t:n.loadCSS=t}(typeof global!="undefined"?global:this)</script>
+	<script nonce="">
+		/*! loadCSS rel=preload polyfill.*/
+		/*Render is reversed!*/
+			loadCSS("/Views/Ecom/Main/css?v=kr1Dd2zofndHgdgq_WM4KC1UY7bMdA2loorM6CZPchA1");
+					loadCSS("/Views/Shared/LayoutPSP/css?v=U1xOjK-s1k-qabXabhdxZ6ubFBaU9k-4UmpzTdhnsxo1");
+		loadCSS("/Views/Shared/Layout/css?v=U_wIemeoCfl195m3mdQcpQVQ1-8B-bCPikVQsv5DCgs1");
+		loadCSS("/FrontSources/Custom.css?v=MGYDDfT5jaNTUQ4-TXTMv5M2xwC4LpkUSDr1zzBUgcg1");
+		
+	</script><link rel="stylesheet" href="/FrontSources/Custom.css?v=MGYDDfT5jaNTUQ4-TXTMv5M2xwC4LpkUSDr1zzBUgcg1" media="all"><link rel="stylesheet" href="/Views/Shared/Layout/css?v=U_wIemeoCfl195m3mdQcpQVQ1-8B-bCPikVQsv5DCgs1" media="all"><link rel="stylesheet" href="/Views/Shared/LayoutPSP/css?v=U1xOjK-s1k-qabXabhdxZ6ubFBaU9k-4UmpzTdhnsxo1" media="all"><link rel="stylesheet" href="/Views/Ecom/Main/css?v=kr1Dd2zofndHgdgq_WM4KC1UY7bMdA2loorM6CZPchA1" media="all">
+<meta class="foundation-mq"></head>
+<body style="opacity: 1; transition: opacity 1s linear;">
+	
+
+
+
+
+<div id="menutop">
+	<div class="psp-navbar">
+	<div class="psp-navbar-content">
+		<picture data-loader="pic">
+			<source srcset="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" type="image/webp">
+			<source srcset="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" type="image/png">
+			<img src="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" alt="">
+		</picture>
+		
+			<img src="/content/images/ecom/new-logo-paynet.svg" alt="">
+	</div>
+</div>
+
+<!-- Start Top -->
+<!-- mobile nav bar -->
+<!--<div class="grid-x show-for-small-only padding-horizontal-0">
+	<div class="cell auto align-self-middle">
+		<picture>
+			<source srcset="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" type="image/webp">
+			<source srcset="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" type="image/png">
+			<img src="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" alt="" style="max-height: 32px;" />
+		</picture>
+	</div>-->
+	
+<!--</div>-->
+<!-- /mobile nav bar -->
+<!-- medium and larger nav bar -->
+
+<!--<div class="grid-x padding-vertical-05 hide-for-small-only">
+	<div class="large-2 medium-3 cell align-self-middle">
+		<picture>
+			<source srcset="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" type="image/webp">
+			<source srcset="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" type="image/png">
+			<img src="/main/image?ptype=ecom_partners&amp;pname=onlidocumentation_md" alt="" style="max-height: 70px;" />
+		</picture>
+	</div>
+	<div class="large-3 medium-3 cell large-offset-7 medium-offset-6 display-inline-flex align-right hide-for-small-only">-->
+		
+		<!--<picture class="align-self-middle">
+			<source srcset="/content/images/ecom/paynet-psp-logo.webp" type="image/webp">
+			<source srcset="/content/images/ecom/paynet-psp-logo.png" type="image/png">
+			<img src="/content/images/ecom/paynet-psp-logo.png" alt="" style="max-height: 70px;"/>
+		</picture>
+	</div>
+</div>-->
+
+<!-- /medium and larger nav bar -->
+<!-- End Top -->
+</div>
+<div id="centerblock" class="  medium-padding-0 margin-bottom-0">
+	<div class="grid-container padding-1">
+		
+
+
+<input class="discount_input" id="FieldsGPay_0__FieldName" name="FieldsGPay[0].FieldName" type="hidden" value="payment_token" style="">
+<input class="discount_input" id="payment_token" name="FieldsGPay[0].Value" type="hidden" value="" style="">
+	<div class="main-block padding-1">
+		<div class="cell medium-12 small-12 small-padding-0 position-relative">
+			<h2 class="text-truncate " id="h2_checkout">Choose payment method</h2>
+<form action="/Acquiring/CheckoutInit" data-abide="nd2vc2-abide" data-live-validate="true" data-validate-on-blur="true" id="checkout_init" method="post" novalidate="" onkeydown="return event.key != 'Enter';"><input name="__RequestVerificationToken" type="hidden" value="mKlt1b8Srx0rWwddK8ThTr6-xpP3yD6vXiWS2wjj50SWoz3vXiR4N4HrdM5dhKaOLVUudJ2Z1zB2aMY-LtkrwbodaDhWilrAe5JxXbE6ZO41" aria-describedby="errorCardNr" style=""><input id="opid" name="opid" type="hidden" value="1056535" aria-describedby="errorCardNr" style=""><input disabled="disabled" id="CheckoutInitVGS" name="CheckoutInitVGS" type="hidden" value="false" aria-describedby="errorCardNr" style=""><input disabled="disabled" id="mpcode" name="mpcode" type="hidden" value="CYBER_SOURCE_MDL" aria-describedby="errorCardNr" style=""><input id="issuer" name="issuer" type="hidden" value="271" aria-describedby="errorCardNr" style=""><input id="CardBank" name="CardBank" type="hidden" value="" aria-describedby="errorCardNr" style=""><input id="LinkUrlCancel" name="LinkUrlCancel" type="hidden" value="https://docs.paynet.md/api/#/e2e/cancel" aria-describedby="errorCardNr" style=""><input id="LinkUrlSuccess" name="LinkUrlSuccess" type="hidden" value="https://docs.paynet.md/api/#/e2e/success" aria-describedby="errorCardNr" style=""><input data-val="true" data-val-number="The field RequestCurrency must be a number." data-val-required="The RequestCurrency field is required." id="AcquiringOperation_RequestCurrency" name="AcquiringOperation.RequestCurrency" type="hidden" value="498" aria-describedby="errorCardNr" style="">				<ul class="tabs" data-tabs="vk77ad-tabs" id="moneyproviders-tabs" role="tablist">
+						<li class="tabs-title is-active" onclick="PayCardorPayNet()" role="presentation">
+							<a data-mpcode="CYBER_SOURCE_MDL" data-id="271" href="#mp_visa_mastercard" class="text-decoration-none" style="background-image: url(/main/image?ptype=ecom_images&amp;pname=CYBER_SOURCE_MDL)" role="tab" aria-controls="mp_visa_mastercard" aria-selected="true" id="mp_visa_mastercard-label" tabindex="0"></a>
+						</li>
+									</ul>
+				<div class="tabs-content small-margin-top-1" data-tabs-content="moneyproviders-tabs">
+
+					<div class="cell large-auto medium-auto small-12 align-self-middle">
+						<h4 class="text-center dark-gray text-truncate">Amount to pay:</h4>
+					</div>
+					<div class="cell large-auto medium-auto small-12">
+						<h3 class="text-center coral final_amount">
+							3.00 MDL
+						</h3>
+					</div>
+
+					<div class="check-currency">
+							<div class="switch  ">
+								<input data-mpcode="CYBER_SOURCE_MDL" data-id="271" class="switch-input" id="switch_mdl" type="radio" name="currency" checked="'checked'" style="">
+								<label class="switch-paddle bordered circe-light" for="switch_mdl">
+									
+									<span class="switch-active" aria-hidden="true">MDL</span>
+									<span class="switch-inactive" aria-hidden="true">MDL</span>
+								</label>
+							</div>
+																	</div>
+
+					
+
+<div class="order-info">
+	<div onclick="OpenOrderInfo()" class="order-info-btn">
+		<div class="summary-info">
+			<span>onlidocumentation.md</span>
+			<span class="order-number">1795003526252</span>
+		</div>
+		<div class="exp-indicator">
+			<span id="exp-text">Click to view details</span>
+			<i id="icon-order-info" class="fas fa-chevron-down"></i>
+		</div>
+	</div>
+	<div class="order-info-content display-none">
+		<h2 class="text-truncate">Your order</h2>
+		<div class="small-12 cell">
+		</div>
+		<div class="detail-row">
+			<h5 class="text text-truncate" title="Order amount">Order amount</h5>
+			<h5 class="value text-right text-wrap">
+				3.00 MDL
+			</h5>
+		</div>
+		<div class="detail-row">
+			<h5 class="text text-truncate" title="Order number">Order number</h5>
+			<h5 class="value text-right" title="1795003526252">1795003526252</h5>
+		</div>
+		<div class="detail-row">
+			<h5 class="text text-truncate" title="Merchant">Merchant</h5>
+			<h5 class="value text-right" title="onlidocumentation.md">onlidocumentation.md</h5>
+		</div>
+		<div class="detail-row">
+			<h5 class="text text-wrap" title="Order details">Order details</h5>
+			<h5 class="value text-right text-wrap" title="Docs E2E">Docs E2E</h5>
+		</div>
+			<div class="detail-row">
+				<h5 class="text text-truncate" id="fee_percent">
+					Comission
+					<span></span>
+				</h5>
+				<h5 class="value text-right text-wrap" id="fee_amount">
+					0 %
+				</h5>
+			</div>
+		<div class="detail-row total">
+			<h5 class="text text-truncate">Amount to pay:</h5>
+			<h5 class="value final_amount text-nowrap line-height-normal">
+				3.00 MDL
+			</h5>
+		</div>
+	</div>
+</div>
+
+
+
+						<div class="tabs-panel is-active radius" id="mp_visa_mastercard" role="tabpanel" aria-labelledby="mp_visa_mastercard-label">
+
+							<div class="pay-google-apple v2">
+															</div>
+							<div class="pay-with-card">
+								<div class="card-header">
+									<h5 class="text-truncate">Pay with card</h5>
+									<div class="display-flex" style="gap:5px;">
+										<img class="visa-img" src="/content/svg/Visa.svg" alt="Visa">
+										<img src="/content/svg/MasterCard.svg" alt="MasterCard">
+									</div>
+
+								</div>
+								<div class="card-content">
+									<div class="enter-card margin-bottom-1">
+										<input class="display-none" id="new-card" onclick="showCardInfo()" type="radio" checked="checked" style="">
+										<h5>Enter your card details:</h5>
+										
+									</div>
+
+
+
+<script src="https://testflex.cybersource.com/microform/bundle/v2.12.1/flex-microform.min.js" integrity="sha256-MhUTcvKGlJoYwgrw99E8NSM6iPttcyHolIvazINpMvY=" crossorigin="anonymous"></script>
+
+
+<style>
+	.card-info .cs_field {
+		border-radius: 4px;
+		box-sizing: border-box;
+		display: block;
+		height: 40px;
+		border: 1px solid rgb(209, 217, 224);
+		box-shadow: none;
+		padding: 4px 8px;
+		text-transform: uppercase;
+		background-color: rgb(255, 255, 255);
+	}
+
+	#CardExp.cs_field {
+		font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+		font-size: 14px;
+		color: rgb(45, 57, 71);
+		transition: 0.15s linear;
+		margin-bottom: 0;
+	}
+
+		#CardExp.cs_field::-webkit-input-placeholder {
+			font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+			font-size: 14px;
+			color: rgb(117, 117, 117);
+			-webkit-text-fill-color: rgb(117, 117, 117);
+		}
+
+	#CardNr {
+		background-image: url("data:image/svg+xml,%3csvg width='39' height='24' viewBox='0 0 39 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e %3crect x='0.5' y='0.5' width='38' height='23' rx='2.5' fill='white' stroke='%23A8B3C1'/%3e %3crect x='3' y='12' width='33' height='2.25' rx='1.125' fill='%23A8B3C1'/%3e %3crect x='3' y='16.5' width='7.5' height='2.25' rx='1.125' fill='%23A8B3C1'/%3e %3crect x='12' y='16.5' width='7.5' height='2.25' rx='1.125' fill='%23A8B3C1'/%3e %3crect x='28.5' y='16.5' width='7.5' height='4.5' rx='0.5' fill='%23A8B3C1'/%3e %3crect x='3' y='3' width='6.75' height='5.25' rx='0.5' fill='%23A8B3C1'/%3e %3c/svg%3e");
+		background-repeat: no-repeat;
+		background-size: 2rem;
+		background-position: 95%;
+	}
+
+		#CardNr.visa {
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='39' height='24' viewBox='0 0 39 24' fill='none'%3E%3Crect x='0.5' y='0.5' width='38' height='23' rx='2.5' fill='white' stroke='%231A1F71'/%3E%3Cpath d='M12.5268 6.69374L9.66644 13.9396L8.50682 7.77869C8.36767 7.08897 7.83424 6.69374 7.23897 6.69374H2.56185L2.5 7.00373C3.45862 7.21297 4.54866 7.55395 5.21351 7.91043C5.61551 8.12742 5.73147 8.32116 5.86289 8.84814L8.0507 17.3417H10.9575L15.4104 6.70149H12.5268V6.69374ZM16.5932 6.69374L14.3204 17.334H17.0648L19.3377 6.69374H16.5932ZM32.3408 9.56885L33.1758 13.5677H30.8952L32.3408 9.56885ZM31.9388 6.69374C31.4131 6.69374 30.9648 7.00372 30.7715 7.47645L26.651 17.3417H29.5268L30.0989 15.7531H33.6241L33.9566 17.3417H36.5L34.2813 6.70149H31.9388V6.69374ZM20.0875 10.0183C20.0721 11.5528 21.4482 12.4052 22.4918 12.9167C23.5587 13.4359 23.922 13.7691 23.9143 14.2419C23.9065 14.9548 23.0639 15.2726 22.2676 15.2803C20.8838 15.3036 20.0875 14.9083 19.4459 14.6061L18.9511 16.9387C19.5928 17.2332 20.7756 17.489 22.0048 17.5045C24.8884 17.5045 26.7747 16.0785 26.7901 13.8621C26.8056 11.0568 22.917 10.9018 22.9402 9.64635C22.9479 9.26661 23.3113 8.85588 24.1075 8.75514C24.5018 8.70089 25.5841 8.66214 26.8133 9.22787L27.2926 6.97273C26.6278 6.73249 25.7851 6.5 24.726 6.5C22.0125 6.5 20.103 7.94918 20.0875 10.0183Z' fill='%231A1F71'/%3E%3C/svg%3E");
+		}
+
+		#CardNr.mastercard {
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='39' height='24' viewBox='0 0 39 24' fill='none'%3E%3Crect x='0.5' y='0.5' width='38' height='23' rx='2.5' fill='white' stroke='black'/%3E%3Cpath d='M23.5929 5.3175H15.4109V18.6811H23.5929V5.3175Z' fill='%23FF5F00'/%3E%3Cpath d='M16.2536 12.0005C16.2526 10.7137 16.5443 9.44354 17.1067 8.28612C17.669 7.12871 18.4873 6.11437 19.4995 5.31988C18.2458 4.3346 16.7402 3.72191 15.1547 3.55184C13.5693 3.38177 11.968 3.66118 10.5338 4.35813C9.09965 5.05509 7.8905 6.14147 7.04455 7.49312C6.19861 8.84476 5.75 10.4071 5.75 12.0017C5.75 13.5962 6.19861 15.1586 7.04455 16.5103C7.8905 17.8619 9.09965 18.9483 10.5338 19.6452C11.968 20.3422 13.5693 20.6216 15.1547 20.4515C16.7402 20.2815 18.2458 19.6688 19.4995 18.6835C18.487 17.8888 17.6685 16.874 17.1061 15.7162C16.5438 14.5583 16.2523 13.2877 16.2536 12.0005Z' fill='%23EB001B'/%3E%3Cpath d='M32.4382 17.2671V16.9932H32.5562V16.9366H32.2753V16.9932H32.3863V17.2671H32.4382ZM32.9835 17.2671V16.9366H32.8985L32.7994 17.1726L32.7002 16.9366H32.6153V17.2671H32.6766V17.0168L32.7687 17.2317H32.8324L32.9245 17.0168V17.2671H32.9835Z' fill='%23F79E1B'/%3E%3Cpath d='M33.2503 12.0005C33.2502 13.5952 32.8015 15.1576 31.9554 16.5093C31.1093 17.861 29.9 18.9474 28.4657 19.6442C27.0313 20.3411 25.4298 20.6203 23.8443 20.45C22.2588 20.2797 20.7531 19.6667 19.4995 18.6811C20.5114 17.8859 21.3294 16.8713 21.8919 15.7138C22.4544 14.5563 22.7466 13.2862 22.7466 11.9993C22.7466 10.7124 22.4544 9.44228 21.8919 8.2848C21.3294 7.12732 20.5114 6.1127 19.4995 5.3175C20.7531 4.33191 22.2588 3.71893 23.8443 3.54861C25.4298 3.3783 27.0313 3.65753 28.4657 4.35439C29.9 5.05124 31.1093 6.13761 31.9554 7.4893C32.8015 8.84099 33.2502 10.4035 33.2503 11.9981V12.0005Z' fill='%23F79E1B'/%3E%3C/svg%3E");
+		}
+</style>
+
+
+
+<div class="card-info" data-toggler="ovlng5-toggler" data-animate="fade-in fade-out">
+	<input id="LogoCode" name="LogoCode" type="hidden" value="" aria-describedby="errorCardNr" style="">
+	<input id="Signature" name="Signature" type="hidden" value="" aria-describedby="errorCardNr" style="">
+
+	<input id="Fields_0__FieldName" name="Fields[0].FieldName" type="hidden" value="lang_code" aria-describedby="errorCardNr" style="">
+	<input id="Fields_0__Value" name="Fields[0].Value" type="hidden" value="en" aria-describedby="errorCardNr" style="">
+	<div class="cell card-number">
+		<div id="CardNr" class="cs_field flex-microform"><iframe hspace="0" vspace="0" frameborder="0" scrolling="no" allowtransparency="true" marginwidth="0" marginheight="0" title="secure payment field" src="https://testflex.cybersource.com/microform/bundle/v2.12.1/iframe.html?keyId=082t1G3YDC27WiKTrI3ul41k0YLaGkYE&amp;br=234161#{&quot;microformType&quot;:&quot;card&quot;,&quot;microformId&quot;:&quot;61d6955c-c942-4fd9-a361-07d45624dd81&quot;,&quot;microformConfig&quot;:{&quot;styles&quot;:{&quot;input&quot;:{&quot;font-family&quot;:&quot;Inter, -apple-system, BlinkMacSystemFont, sans-serif&quot;,&quot;font-size&quot;:&quot;14px&quot;,&quot;color&quot;:&quot;rgb(45, 57, 71)&quot;,&quot;transition&quot;:&quot;0.15s linear&quot;},&quot;:disabled&quot;:{&quot;cursor&quot;:&quot;not-allowed&quot;},&quot;valid&quot;:{&quot;color&quot;:&quot;rgb(106, 180, 184)&quot;},&quot;invalid&quot;:{&quot;color&quot;:&quot;rgb(240, 124, 123)&quot;},&quot;incomplete&quot;:{&quot;color&quot;:&quot;rgb(240, 124, 123)&quot;}}},&quot;fieldType&quot;:&quot;number&quot;,&quot;fieldId&quot;:&quot;f04e1bb7-ac22-4e13-ae83-f249ab62c4ed&quot;,&quot;config&quot;:{&quot;placeholder&quot;:&quot;XXXX XXXX XXXX XXXX&quot;,&quot;aria-required&quot;:true},&quot;jwt&quot;:&quot;eyJraWQiOiJ6dSIsImFsZyI6IlJTMjU2In0.eyJmbHgiOnsicGF0aCI6Ii9mbGV4L3YyL3Rva2VucyIsImRhdGEiOiJUSVF2N2VleUROU0pVUjJENUhuVzZnUEFGbEs1ckRRa2RVOXRyY2kzRFpQUkpkdXNMX2N5RVU4T3FWSEczYXBSLUF3TmZHMEYzOWhpUUtXNjMxTGRvZEpNemtjeDQwUW5HT2JWOEdvLWdCdV9XTFpIQ1BDNnp0WjZiaVhGTFcwZFQwTllBMndZNkNSdjFTZGpIUnMyUXdVWTFSa214WEMzQmlEbTlRREd4bGlTUFo2bjNLQU9udHZudEhiQWkzZVdNaVZ1MDRBanNTbVZ4d3JBRjRzUDk5MUNJemRpcjVzaW9WSVx1MDAzZCIsIm9yaWdpbiI6Imh0dHBzOi8vdGVzdGZsZXguY3liZXJzb3VyY2UuY29tIiwidG9rZW5zVXJsIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20vZmxleC92Mi90b2tlbnMiLCJqd2siOnsia3R5IjoiUlNBIiwidGFyZ2V0T3JpZ2lucyI6Imh0dHBzOi8vdGVzdDIucGF5bmV0Lm1kIGh0dHBzOi8vdGVzdC5wYXluZXQubWQgaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMDEiLCJlIjoiQVFBQiIsInVzZSI6ImVuYyIsIm4iOiJ5bFVMWTF0NmYyOXBLS3BJeFV0bF9naGRoYWxBQnJCUmRQOEgtYVpiYzVtTmhSWkpKSE5LekhjMWhXbnc2MzVzVk9GdWcwZGp0N1YtUm01bVRjYmgzaERENXE5aEliN2VzZndlN2lPNzVmTkJSYklFUTlEX01vZVhYQ1NaOHIzdG5EN1pxNThwWDZReUtWUDI1NU5JdFBmbHN1R2I1NHcwbGY3NEI5bFluSGh2R3VZdUFCR3gtMTJCV1hVSEdPMjFLUml2LVliSTNBVDBOV0ZseFF1Rkd5XzFTMXpUWldQUEZvSUVhTzEzcERiSXhVbU00VFhjTXlfejIwNHQxbDBUQ1I0Ykl4Q0hUNkNCRTd1YUFBYW90NG5hNEo5N0FPajMxM3Q2eUVFYUFkTkE5TnJkMHJNY0M4T1kyUXU2TTRBZkZqdDFFMGVJQ0tHbVFiLUIxVndzMXciLCJraWQiOiIwODJ0MUczWURDMjdXaUtUckkzdWw0MWswWUxhR2tZRSJ9fSwiY3R4IjpbeyJkYXRhIjp7ImNsaWVudExpYnJhcnlJbnRlZ3JpdHkiOiJzaGEyNTYtTWhVVGN2S0dsSm9Zd2dydzk5RThOU002aVB0dGN5SG9sSXZheklOcE12WVx1MDAzZCIsImNsaWVudExpYnJhcnkiOiJodHRwczovL3Rlc3RmbGV4LmN5YmVyc291cmNlLmNvbS9taWNyb2Zvcm0vYnVuZGxlL3YyLjEyLjEvZmxleC1taWNyb2Zvcm0ubWluLmpzIiwiYWxsb3dlZENhcmROZXR3b3JrcyI6WyJWSVNBIiwiTUFTVEVSQ0FSRCJdLCJjbGllbnRWZXJzaW9uIjoidjIiLCJ0YXJnZXRPcmlnaW5zIjpbImh0dHBzOi8vdGVzdDIucGF5bmV0Lm1kIiwiaHR0cHM6Ly90ZXN0LnBheW5ldC5tZCIsImh0dHBzOi8vbG9jYWxob3N0OjQ0MzAxIl0sIm1mT3JpZ2luIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20iLCJhbGxvd2VkUGF5bWVudFR5cGVzIjpbIkNBUkQiXX0sInR5cGUiOiJtZi0yLjEuMCJ9XSwiaXNzIjoiRmxleCBBUEkiLCJleHAiOjE3OTUwMDQ0NjksImlhdCI6MTc5NTAwMzU2OSwianRpIjoiWEtLUE1MYWVQaFBEdnA5dSJ9.fYwi4sy0AmmZCtUJFJwRkPw-xVTbghxtXmc5IeImJtkK8POpwxyKoYL53bAUmVuHZPvxG0BFMTM0f8F4_cihFQWpydmRJ5z7_6CHmH_mZDvRT7_hbV9ATnfdkPZA9wbGVP0lNHHMMnafjftlIJ50iWOHAI3o3yY0aIWn1Kok3WY9MmNdcptyVfEhPtwhRSCDgTSPM9w8Fse6VGAfhRMJNl3-FD5coG7oAIKNFkdBs2FYyHyq0hEVj8QjcK75YcJndXCd4IeuQabSZ_X-i1xdr39phNvBC9JOHC-uFBtCJXBS1ZWZeVhjaC_TN7kEC2ait2nOuGNMgChmr2d7sgMaew&quot;}" style="overflow: hidden; position: relative; border: none; width: 100%; height: 100%;"></iframe></div>
+		<span id="errorCardNr" class="form-error" data-magellan-target="errorCardNr" role="alert">
+			Enter a 16-digit number
+		</span>
+	</div>
+	<div class="cell card-exp">
+		<input id="CardExp" placeholder="MM / YY" class="cs_field" type="tel" aria-describedby="errorCardExp" style="">
+		<span id="errorCardExp" class="form-error" data-magellan-target="errorCardExp" role="alert">
+			Required field
+		</span>
+	</div>
+	<div class="card-cvv cell">
+		<div id="CardCvv" class="cs_field flex-microform"><iframe hspace="0" vspace="0" frameborder="0" scrolling="no" allowtransparency="true" marginwidth="0" marginheight="0" title="secure payment field" src="https://testflex.cybersource.com/microform/bundle/v2.12.1/iframe.html?keyId=082t1G3YDC27WiKTrI3ul41k0YLaGkYE&amp;br=590696#{&quot;microformType&quot;:&quot;card&quot;,&quot;microformId&quot;:&quot;61d6955c-c942-4fd9-a361-07d45624dd81&quot;,&quot;microformConfig&quot;:{&quot;styles&quot;:{&quot;input&quot;:{&quot;font-family&quot;:&quot;Inter, -apple-system, BlinkMacSystemFont, sans-serif&quot;,&quot;font-size&quot;:&quot;14px&quot;,&quot;color&quot;:&quot;rgb(45, 57, 71)&quot;,&quot;transition&quot;:&quot;0.15s linear&quot;},&quot;:disabled&quot;:{&quot;cursor&quot;:&quot;not-allowed&quot;},&quot;valid&quot;:{&quot;color&quot;:&quot;rgb(106, 180, 184)&quot;},&quot;invalid&quot;:{&quot;color&quot;:&quot;rgb(240, 124, 123)&quot;},&quot;incomplete&quot;:{&quot;color&quot;:&quot;rgb(240, 124, 123)&quot;}}},&quot;fieldType&quot;:&quot;securityCode&quot;,&quot;fieldId&quot;:&quot;33cfcfff-8832-4c2f-860f-1d03c5576dcf&quot;,&quot;config&quot;:{&quot;placeholder&quot;:&quot;***&quot;,&quot;aria-required&quot;:true,&quot;cvvRequired&quot;:true},&quot;jwt&quot;:&quot;eyJraWQiOiJ6dSIsImFsZyI6IlJTMjU2In0.eyJmbHgiOnsicGF0aCI6Ii9mbGV4L3YyL3Rva2VucyIsImRhdGEiOiJUSVF2N2VleUROU0pVUjJENUhuVzZnUEFGbEs1ckRRa2RVOXRyY2kzRFpQUkpkdXNMX2N5RVU4T3FWSEczYXBSLUF3TmZHMEYzOWhpUUtXNjMxTGRvZEpNemtjeDQwUW5HT2JWOEdvLWdCdV9XTFpIQ1BDNnp0WjZiaVhGTFcwZFQwTllBMndZNkNSdjFTZGpIUnMyUXdVWTFSa214WEMzQmlEbTlRREd4bGlTUFo2bjNLQU9udHZudEhiQWkzZVdNaVZ1MDRBanNTbVZ4d3JBRjRzUDk5MUNJemRpcjVzaW9WSVx1MDAzZCIsIm9yaWdpbiI6Imh0dHBzOi8vdGVzdGZsZXguY3liZXJzb3VyY2UuY29tIiwidG9rZW5zVXJsIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20vZmxleC92Mi90b2tlbnMiLCJqd2siOnsia3R5IjoiUlNBIiwidGFyZ2V0T3JpZ2lucyI6Imh0dHBzOi8vdGVzdDIucGF5bmV0Lm1kIGh0dHBzOi8vdGVzdC5wYXluZXQubWQgaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMDEiLCJlIjoiQVFBQiIsInVzZSI6ImVuYyIsIm4iOiJ5bFVMWTF0NmYyOXBLS3BJeFV0bF9naGRoYWxBQnJCUmRQOEgtYVpiYzVtTmhSWkpKSE5LekhjMWhXbnc2MzVzVk9GdWcwZGp0N1YtUm01bVRjYmgzaERENXE5aEliN2VzZndlN2lPNzVmTkJSYklFUTlEX01vZVhYQ1NaOHIzdG5EN1pxNThwWDZReUtWUDI1NU5JdFBmbHN1R2I1NHcwbGY3NEI5bFluSGh2R3VZdUFCR3gtMTJCV1hVSEdPMjFLUml2LVliSTNBVDBOV0ZseFF1Rkd5XzFTMXpUWldQUEZvSUVhTzEzcERiSXhVbU00VFhjTXlfejIwNHQxbDBUQ1I0Ykl4Q0hUNkNCRTd1YUFBYW90NG5hNEo5N0FPajMxM3Q2eUVFYUFkTkE5TnJkMHJNY0M4T1kyUXU2TTRBZkZqdDFFMGVJQ0tHbVFiLUIxVndzMXciLCJraWQiOiIwODJ0MUczWURDMjdXaUtUckkzdWw0MWswWUxhR2tZRSJ9fSwiY3R4IjpbeyJkYXRhIjp7ImNsaWVudExpYnJhcnlJbnRlZ3JpdHkiOiJzaGEyNTYtTWhVVGN2S0dsSm9Zd2dydzk5RThOU002aVB0dGN5SG9sSXZheklOcE12WVx1MDAzZCIsImNsaWVudExpYnJhcnkiOiJodHRwczovL3Rlc3RmbGV4LmN5YmVyc291cmNlLmNvbS9taWNyb2Zvcm0vYnVuZGxlL3YyLjEyLjEvZmxleC1taWNyb2Zvcm0ubWluLmpzIiwiYWxsb3dlZENhcmROZXR3b3JrcyI6WyJWSVNBIiwiTUFTVEVSQ0FSRCJdLCJjbGllbnRWZXJzaW9uIjoidjIiLCJ0YXJnZXRPcmlnaW5zIjpbImh0dHBzOi8vdGVzdDIucGF5bmV0Lm1kIiwiaHR0cHM6Ly90ZXN0LnBheW5ldC5tZCIsImh0dHBzOi8vbG9jYWxob3N0OjQ0MzAxIl0sIm1mT3JpZ2luIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20iLCJhbGxvd2VkUGF5bWVudFR5cGVzIjpbIkNBUkQiXX0sInR5cGUiOiJtZi0yLjEuMCJ9XSwiaXNzIjoiRmxleCBBUEkiLCJleHAiOjE3OTUwMDQ0NjksImlhdCI6MTc5NTAwMzU2OSwianRpIjoiWEtLUE1MYWVQaFBEdnA5dSJ9.fYwi4sy0AmmZCtUJFJwRkPw-xVTbghxtXmc5IeImJtkK8POpwxyKoYL53bAUmVuHZPvxG0BFMTM0f8F4_cihFQWpydmRJ5z7_6CHmH_mZDvRT7_hbV9ATnfdkPZA9wbGVP0lNHHMMnafjftlIJ50iWOHAI3o3yY0aIWn1Kok3WY9MmNdcptyVfEhPtwhRSCDgTSPM9w8Fse6VGAfhRMJNl3-FD5coG7oAIKNFkdBs2FYyHyq0hEVj8QjcK75YcJndXCd4IeuQabSZ_X-i1xdr39phNvBC9JOHC-uFBtCJXBS1ZWZeVhjaC_TN7kEC2ait2nOuGNMgChmr2d7sgMaew&quot;}" style="overflow: hidden; position: relative; border: none; width: 100%; height: 100%;"></iframe></div>
+		<span id="errorCardCVV" class="form-error" data-magellan-target="errorCardCVV" role="alert">
+			3-digit number
+		</span>
+	</div>
+	<div class="small-12 cell">
+		<h4 id="errorresponse" class="coral" data-magellan-target="errorresponse"></h4>
+		<h5 id="inforesponse" class="medium-gray" data-magellan-target="inforesponse"></h5>
+	</div>
+
+</div>
+
+<div id="step-up-container" style="position: absolute; left: -9999px; visibility: hidden;">
+	<iframe name="step-up-iframe" id="step-up-iframe" width="0" height="0" style="border:none;"></iframe>
+</div>
+
+<script>
+
+    var expectedCardinalOrigin = "";
+    window.isCyberSourceComplete = false;
+    var globalMicroform = null;
+    var isPaymentProcessing = false;
+    let cardNumber = null;
+    let cardNumberState = null;
+    let cvv = null;
+    let cvvState = null;
+    let cardExp = null;
+    let cardExpState = null;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        window.addEventListener("message", function (event) {
+            if (expectedCardinalOrigin && event.origin === expectedCardinalOrigin) {
+                try {
+                    var data = (typeof event.data === "string") ? JSON.parse(event.data) : event.data;
+
+                    if (data.MessageType === "profile.completed") {
+                        if (isPaymentProcessing) {
+                            return;
+                        }
+                        isPaymentProcessing = true;
+                        if (linkedType === 1) {
+                            FinalizeCyberSourcePayment();
+                        }
+                        else if (linkedType === 2) {
+                            window.VGSPost();
+                        }
+                    }
+                } catch (e) {
+                }
+            }
+        }, false);
+
+        const flexToken = "eyJraWQiOiJ6dSIsImFsZyI6IlJTMjU2In0.eyJmbHgiOnsicGF0aCI6Ii9mbGV4L3YyL3Rva2VucyIsImRhdGEiOiJUSVF2N2VleUROU0pVUjJENUhuVzZnUEFGbEs1ckRRa2RVOXRyY2kzRFpQUkpkdXNMX2N5RVU4T3FWSEczYXBSLUF3TmZHMEYzOWhpUUtXNjMxTGRvZEpNemtjeDQwUW5HT2JWOEdvLWdCdV9XTFpIQ1BDNnp0WjZiaVhGTFcwZFQwTllBMndZNkNSdjFTZGpIUnMyUXdVWTFSa214WEMzQmlEbTlRREd4bGlTUFo2bjNLQU9udHZudEhiQWkzZVdNaVZ1MDRBanNTbVZ4d3JBRjRzUDk5MUNJemRpcjVzaW9WSVx1MDAzZCIsIm9yaWdpbiI6Imh0dHBzOi8vdGVzdGZsZXguY3liZXJzb3VyY2UuY29tIiwidG9rZW5zVXJsIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20vZmxleC92Mi90b2tlbnMiLCJqd2siOnsia3R5IjoiUlNBIiwidGFyZ2V0T3JpZ2lucyI6Imh0dHBzOi8vdGVzdDIucGF5bmV0Lm1kIGh0dHBzOi8vdGVzdC5wYXluZXQubWQgaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMDEiLCJlIjoiQVFBQiIsInVzZSI6ImVuYyIsIm4iOiJ5bFVMWTF0NmYyOXBLS3BJeFV0bF9naGRoYWxBQnJCUmRQOEgtYVpiYzVtTmhSWkpKSE5LekhjMWhXbnc2MzVzVk9GdWcwZGp0N1YtUm01bVRjYmgzaERENXE5aEliN2VzZndlN2lPNzVmTkJSYklFUTlEX01vZVhYQ1NaOHIzdG5EN1pxNThwWDZReUtWUDI1NU5JdFBmbHN1R2I1NHcwbGY3NEI5bFluSGh2R3VZdUFCR3gtMTJCV1hVSEdPMjFLUml2LVliSTNBVDBOV0ZseFF1Rkd5XzFTMXpUWldQUEZvSUVhTzEzcERiSXhVbU00VFhjTXlfejIwNHQxbDBUQ1I0Ykl4Q0hUNkNCRTd1YUFBYW90NG5hNEo5N0FPajMxM3Q2eUVFYUFkTkE5TnJkMHJNY0M4T1kyUXU2TTRBZkZqdDFFMGVJQ0tHbVFiLUIxVndzMXciLCJraWQiOiIwODJ0MUczWURDMjdXaUtUckkzdWw0MWswWUxhR2tZRSJ9fSwiY3R4IjpbeyJkYXRhIjp7ImNsaWVudExpYnJhcnlJbnRlZ3JpdHkiOiJzaGEyNTYtTWhVVGN2S0dsSm9Zd2dydzk5RThOU002aVB0dGN5SG9sSXZheklOcE12WVx1MDAzZCIsImNsaWVudExpYnJhcnkiOiJodHRwczovL3Rlc3RmbGV4LmN5YmVyc291cmNlLmNvbS9taWNyb2Zvcm0vYnVuZGxlL3YyLjEyLjEvZmxleC1taWNyb2Zvcm0ubWluLmpzIiwiYWxsb3dlZENhcmROZXR3b3JrcyI6WyJWSVNBIiwiTUFTVEVSQ0FSRCJdLCJjbGllbnRWZXJzaW9uIjoidjIiLCJ0YXJnZXRPcmlnaW5zIjpbImh0dHBzOi8vdGVzdDIucGF5bmV0Lm1kIiwiaHR0cHM6Ly90ZXN0LnBheW5ldC5tZCIsImh0dHBzOi8vbG9jYWxob3N0OjQ0MzAxIl0sIm1mT3JpZ2luIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20iLCJhbGxvd2VkUGF5bWVudFR5cGVzIjpbIkNBUkQiXX0sInR5cGUiOiJtZi0yLjEuMCJ9XSwiaXNzIjoiRmxleCBBUEkiLCJleHAiOjE3OTUwMDQ0NjksImlhdCI6MTc5NTAwMzU2OSwianRpIjoiWEtLUE1MYWVQaFBEdnA5dSJ9.fYwi4sy0AmmZCtUJFJwRkPw-xVTbghxtXmc5IeImJtkK8POpwxyKoYL53bAUmVuHZPvxG0BFMTM0f8F4_cihFQWpydmRJ5z7_6CHmH_mZDvRT7_hbV9ATnfdkPZA9wbGVP0lNHHMMnafjftlIJ50iWOHAI3o3yY0aIWn1Kok3WY9MmNdcptyVfEhPtwhRSCDgTSPM9w8Fse6VGAfhRMJNl3-FD5coG7oAIKNFkdBs2FYyHyq0hEVj8QjcK75YcJndXCd4IeuQabSZ_X-i1xdr39phNvBC9JOHC-uFBtCJXBS1ZWZeVhjaC_TN7kEC2ait2nOuGNMgChmr2d7sgMaew";
+        if (!flexToken) return;
+
+
+        try {
+            const flex = new Flex(flexToken);
+            const microform = flex.microform({
+                styles: {
+                    input: {
+                        'font-family': 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+                        'font-size': '14px',
+                        'color': 'rgb(45, 57, 71)',
+                        'transition': '0.15s linear'
+                    },
+                    //':focus': {  },
+                    ':disabled': { 'cursor': 'not-allowed' },
+					'valid': { 'color': 'rgb(106, 180, 184)' },
+					'invalid': { 'color': 'rgb(240, 124, 123)' },
+					'incomplete': { 'color': 'rgb(240, 124, 123)' }
+                }
+            });
+
+            cardNumber = microform.createField('number', { placeholder: 'XXXX XXXX XXXX XXXX' });
+            cvv = microform.createField('securityCode', { placeholder: '***' });
+
+            const cardNumberdefaultclasses = $('#CardNr').attr("class");
+            cardNumber.on('change', (data) => {
+                cardNumberState = data;
+				$('#CardNr').attr("class", cardNumberdefaultclasses);
+                if (data.valid) {
+					$("#errorCardNr").removeClass("is-visible");
+                    $('#CardNr').toggleClass(data.card[0].name);
+                }
+                else {
+					$("#errorCardNr").addClass("is-visible");
+                }
+            });
+
+			const cvvdefaultclasses = $('#CardCvv').attr("class");
+            cvv.on('change', (data) => {
+				cvvState = data;
+				$('#CardCvv').attr("class", cvvdefaultclasses);
+				if (data.valid) {
+					$("#errorCardCVV").removeClass("is-visible");
+				}
+				else {
+					$("#errorCardCVV").addClass("is-visible");
+				}
+			});
+
+			$("#CardExp").on('input change paste keyup', () => {
+				cardExp = $("#CardExp").payment('cardExpiryVal');
+				cardExpState = $.payment.validateCardExpiry(cardExp["month"], cardExp["year"]);
+				console.log(cardExp, cardExpState);
+				$("#CardExp").css("color", cardExpState ? 'rgb(106, 180, 184)' : 'rgb(240, 124, 123)');
+				if (cardExpState) {
+					$("#errorCardExp").removeClass("is-visible");
+                }
+                else {
+                    $("#errorCardExp").addClass("is-visible");
+                }
+             
+
+            });
+
+			cardNumber.load('#CardNr');
+			cvv.load('#CardCvv');
+            globalMicroform = microform;
+
+        } catch (e) { $("#errorresponse").html(e); }
+    });
+
+
+    window.CyberSourceInfoSubmit = function () {
+        if (window.StartRequest) window.StartRequest();
+        $("#errorresponse").html("");
+        $("#inforesponse").html("");
+
+        if (!cardNumberState || !cardNumberState?.valid) {
+			$("#errorCardNr").addClass("is-visible");
+		}
+
+		if (!cvvState || !cvvState?.valid) {
+			$("#errorCardCVV").addClass("is-visible");
+		}
+
+		if (!cardExpState) {
+			$("#errorCardExp").addClass("is-visible");
+		}
+
+        if ($("#billinginfo").find("[data-invalid]").length > 0 ||
+            $("#FirstName").hasClass("is-invalid-input") ||
+            $("#LastName").hasClass("is-invalid-input") ||
+            $("#Email").hasClass("is-invalid-input"))
+        {
+            $(".billing-info-form").removeClass('display-none');
+            $("#icon-billing-info").addClass("expanded");
+            if (window.StopRequest) window.StopRequest();
+            return;
+        }
+
+        if (!globalMicroform) {
+            $("#errorresponse").html("System Error: Payment form not loaded.");
+            if (window.StopRequest) window.StopRequest();
+            return;
+        }
+
+		globalMicroform.createToken({ expirationMonth: cardExp?.["month"].toString().padStart(2, 0), expirationYear: cardExp?.["year"].toString() }, (err, token) => {
+
+            if (err) {
+//                $("#errorresponse").html("Card Validation Error. Please check card details.");
+                console.log(err);
+
+                if (window.StopRequest) window.StopRequest();
+                window.checkoutinit_af = 0;
+                return;
+            }
+
+            ProceedToCheckoutInit(token)
+        });
+    };
+
+
+    function ProceedToCheckoutInit(token) {
+        var checkout_init_form = $("#checkout_init").serialize();
+
+        $.ajax({
+            beforeSend: function (xhr) {
+                if (window.GetBrowserJson) xhr.setRequestHeader("BrowserJson", window.GetBrowserJson());
+                xhr.setRequestHeader("Token", token);
+            },
+            url: cs_init_url,
+            data: checkout_init_form,
+            type: "POST",
+            async: true,
+            success: function (data) {
+                try {
+                    if (data.Result && data.Result.IsOK) {
+                        $("#CheckoutInitVGS").val(data.Result.IsOK);
+                        DisableMP()
+
+                        if (data.Signature) {
+                            $("#Signature").val(data.Signature);
+                        }
+                        if (data.SaleArea && data.SaleArea.LogoCode) {
+                            $("#LogoCode").val(data.SaleArea.LogoCode);
+                        }
+                        if (data.CollectUrl && data.AccessToken && data.CheckOutPayment) {
+
+                            const urlParser = new URL(data.CollectUrl);
+                            expectedCardinalOrigin = urlParser.origin;
+                            linkedType = 1;
+                            SubmitToCardinal(data.CollectUrl, data.AccessToken, data.CheckOutPayment.Id);
+                        }
+                    } else {
+                        if (data.Result && data.Result.ResultCode == 2997 && data.ResultBin)
+                        {
+                            CheckDiscount(data.ResultBin);
+                            VerifyBinAndProceed({ Result: data.ResultBin });
+                        }
+                        
+						$("#inforesponse").html("Note: The international cards can be charged in foreign currency only");
+                        if (window.StopRequest) window.StopRequest();
+                        window.checkoutinit_af = 0;
+                    }
+                } catch (exc) {
+                    $("#errorresponse").html("System Error during Init");
+                    if (window.StopRequest) window.StopRequest();
+                    window.checkoutinit_af = 0;
+                }
+            },
+            error: function () {
+                $("#errorresponse").html("Network Error");
+                if (window.StopRequest) window.StopRequest();
+                window.checkoutinit_af = 0;
+            }
+        });
+    }
+
+    function VerifyBinAndProceed(data) {
+            try {
+                $("#errorresponse").html("");
+                $("#inforesponse").html("");
+                if (data.Result.IsOK) {
+                    $("button[type=submit]").removeAttr("disabled");
+                    if ($("#switch_mdl").length > 0) {
+                        $("#switch_mdl").parent().removeClass("filter_gray");
+                    }
+                    if (data.Result.ReturnObject !== undefined &&
+                        data.Result.ReturnObject.CountryStateForUsing !== undefined &&
+                        data.Result.ReturnObject.CountryStateForUsing === 3) {
+                        if ($(".switch-input:checked").data("mpcode").indexOf("MDL") === -1) {
+                            if ($("#switch_mdl").length > 0) {
+                                $("#switch_mdl").click();
+                            }
+                        }
+                        if ($("#switch_eur").length > 0 && $(".switch-input").length > 1) {
+                            $("#switch_eur").parent().addClass("filter_gray");
+                        }
+                        if ($("#switch_usd").length > 0 && $(".switch-input").length > 1) {
+                            $("#switch_usd").parent().addClass("filter_gray");
+                        }
+                    } else {
+                        if ($("#switch_eur").length > 0) {
+                            $("#switch_eur").parent().removeClass("filter_gray");
+                        }
+                        if ($("#switch_usd").length > 0) {
+                            $("#switch_usd").parent().removeClass("filter_gray");
+                        }
+                        if ($("#AcquiringOperation_RequestCurrency").val() !== '498') {
+                            $("#switch_mdl").parent().addClass("filter_gray");
+                            if ($("#AcquiringOperation_RequestCurrency").val() === '840') {
+                                $("#switch_usd").click();
+                            } else {
+                                $("#switch_eur").click();
+                            }
+                        }
+                    }
+                } else if (data.Result.ResultCode == 68 && data.Result.ReturnObject != null) {
+                    $("button[type=submit]").removeAttr("disabled");
+                    if ($("#switch_eur").length > 0) $("#switch_eur").parent().removeClass("filter_gray");
+                    if ($("#switch_usd").length > 0) $("#switch_usd").parent().removeClass("filter_gray");
+                    if ($("#switch_mdl").length > 0 && $(".switch-input").length > 1) $("#switch_mdl").parent().addClass("filter_gray");
+                    if ($(".switch-input:checked").data("mpcode").indexOf("MDL") !== -1) {
+                        if ($("#switch_eur").length > 0) $("#switch_eur").click();
+                        else if ($("#switch_usd").length > 0) $("#switch_usd").click();
+                    }
+                } else {
+                    if ($("#switch_eur").length > 0) $("#switch_eur").parent().removeClass("filter_gray");
+                    if ($("#switch_usd").length > 0) $("#switch_usd").parent().removeClass("filter_gray");
+                    if ($("#switch_mdl").length > 0 && $(".switch-input").length > 1) $("#switch_mdl").parent().addClass("filter_gray");
+                    if ($(".switch-input:checked").data("mpcode").indexOf("MDL") !== -1) {
+                        if ($("#switch_eur").length > 0) $("#switch_eur").click();
+                        else if ($("#switch_usd").length > 0) $("#switch_usd").click();
+                    }
+                }
+            } catch (exc) {
+                console.error(exc);
+            }
+        }
+    function FinalizeCyberSourcePayment() {
+        const id = "1056535";
+        $.ajax({
+            url: cs_auth_url,
+            type: "POST",
+            data: {
+                Id: $("#opid").val(),
+                Signature: $("#Signature").val(),
+                LogoCode: $("#LogoCode").val()
+            },
+            success: function(data) {
+                if (data.IsOK === true && data.ResultCode === 0 && data.ReturnObject) {
+
+                    var f = document.createElement("form");
+                    f.id = "moneyprovider_form";
+                    f.method = "post";
+                    f.action = "/ecom/bankplayground";
+
+                    var htmlInput = document.createElement("input");
+                    htmlInput.type = "hidden";
+                    htmlInput.name = "HTML";
+                    htmlInput.value = data.ReturnObject.HTML || "";
+                    f.appendChild(htmlInput);
+
+                    var tokenInput = document.createElement("input");
+                    tokenInput.type = "hidden";
+                    tokenInput.name = "__RequestVerificationToken";
+                    tokenInput.value = $("[name='__RequestVerificationToken']").val();
+                    f.appendChild(tokenInput);
+
+                    var checkoutIdInput = document.createElement("input");
+                    checkoutIdInput.type = "hidden";
+                    checkoutIdInput.name = "id";
+                    checkoutIdInput.value = data.ReturnObject.TransactionID;
+                    f.appendChild(checkoutIdInput);
+
+                    document.body.appendChild(f);
+                    f.submit();
+
+                    if (window.StopRequest) window.StopRequest();
+                    return;
+
+                } else {
+                    var msg = data.ResultCode + " - " + data.ResultMessage;
+                    $("#errorresponse").html(msg);
+                    if (window.StopRequest) window.StopRequest();
+                    window.checkoutinit_af = 0;
+                }
+            },
+            error: function() {
+                if (window.StopRequest) window.StopRequest();
+                window.checkoutinit_af = 0;
+            }
+        });
+    }
+
+    function SubmitToCardinal(actionUrl, jwtToken, id) {
+        if (isPaymentProcessing) {
+            return;
+        }
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", actionUrl);
+        form.setAttribute("target", "step-up-iframe");
+
+        var inputJWT = document.createElement("input");
+        inputJWT.setAttribute("type", "hidden");
+        inputJWT.setAttribute("name", "JWT");
+        inputJWT.setAttribute("value", jwtToken);
+        form.appendChild(inputJWT);
+
+        var inputMD = document.createElement("input");
+        inputMD.setAttribute("type", "hidden");
+        inputMD.setAttribute("name", "MD");
+        inputMD.setAttribute("value", "AUTH_" + id);
+        form.appendChild(inputMD);
+
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }
+
+    function DisableMP() {
+        $("[data-mpcode]").not("[data-mpcode=" + $("#mpcode").val() + "]").each(function () {
+            $(this).parent().addClass("filter_gray");
+        });
+        $("#ecom_mp_dd").addClass("filter_gray");
+        try {
+            $("#checkout_init").foundation('validateForm');
+        } catch (e) {
+        }
+        if ($("#billinginfo").find("[data-invalid]").length === 0) {
+        }
+    }
+    
+    function CheckDiscount(bin) {
+    	if (!!$("#issuer").val() && !!$("#opid").val() && bin) {
+    		$.ajax({
+    			url: ecom_checkdiscount,
+    			data: {
+    				__RequestVerificationToken: $("[name=__RequestVerificationToken]").val(),
+    				id: $("#opid").val(),
+    				issuerId: $("#issuer").val(),
+    				bin
+    			},
+    			type: "POST",
+    			success: function (data) {
+    				try {
+    					if (data.Result.IsOK) {
+    						const final_amount = data.Result.ReturnObject.ExchangeAmount;
+    						const fee_amount = data.Result.ReturnObject.ExchangeCustomerFeeAmount;
+    						const fee_percent = data.Result.ReturnObject.FeeCustomer;
+    						$(".final_amount").each(function () {
+    							$(this).html(`${parseFloat((final_amount / 100)).toFixed(2)} ${getmpobj().CurrencyCode}`);
+    						});
+    						$("#fee_amount").html(`${parseFloat((fee_amount / 100)).toFixed(2)} ${getmpobj().CurrencyCode}`);
+    						$("#fee_percent span").html(fee_percent === 0 ? "" : `(${parseFloat((fee_percent / 100)).toFixed(2)}%)`);
+    					}
+    				}
+    				catch (exc) {
+    					console.info(data);
+    					console.error(exc.name + ": " + exc.message);
+    				}
+    			},
+    			// complete: function () {
+    			// 	//(<any>window).StopRequest();
+    			// }
+    		});
+    	}
+    	else CheckAmount()
+    }
+    
+    function CheckAmount() {
+    	const data = getmpobj();
+    	const final_amount = data.Info.ExchangeAmount;
+    	const fee_amount = data.Info.ExchangeCustomerFeeAmount;
+    	const fee_percent = data.Info.FeeCustomer;
+    	$(".final_amount").each(function () {
+    		$(this).html(`${parseFloat((final_amount / 100)).toFixed(2)} ${getmpobj().CurrencyCode}`);
+    	});
+    	$("#fee_amount").html(`${parseFloat((fee_amount / 100)).toFixed(2)} ${getmpobj().CurrencyCode}`);
+    	$("#fee_percent span").html(fee_percent === 0 ? "" : `(${parseFloat((fee_percent / 100)).toFixed(2)}%)`);
+    }
+</script>
+									<div class="billing-info" id="billinginfo">
+	
+	<div class="billing-header" onclick="OpenBillingInfo()">
+		<h5 class=" text-truncate">Biling information:</h5>
+		<i id="icon-billing-info" class="fas fa-chevron-down"></i>
+	</div>
+	<div class="billing-info-form display-none ">
+		<div class="control">
+			<h4 class="text-truncate ">First name</h4>
+			<input data-val="true" data-val-length="The field FirstName must be a string with a minimum length of 2 and a maximum length of 32." data-val-length-max="32" data-val-length-min="2" data-validator="trimfield" id="FirstName" maxlength="32" name="FirstName" pattern="alpha-general" placeholder="Insert your name" required="" type="text" value="Docs" aria-describedby="FirstName" style="">
+			<span id="FirstName" class="form-error " data-form-error-on="required" role="alert">
+				Required field
+			</span>
+			<span class="form-error " data-form-error-on="pattern" role="alert">
+				Required field
+			</span>
+		</div>
+		<div class="control">
+			<h4 class=" text-truncate">Last name</h4>
+			<input data-val="true" data-val-length="The field LastName must be a string with a minimum length of 2 and a maximum length of 32." data-val-length-max="32" data-val-length-min="2" data-validator="trimfield" id="LastName" maxlength="32" name="LastName" pattern="alpha-general" placeholder="Insert your last name" required="" type="text" value="Check" aria-describedby="LastName" style="">
+			<span id="LastName" class="form-error" data-form-error-on="required" role="alert">
+				Required field
+			</span>
+			<span class="form-error" data-form-error-on="pattern" role="alert">
+				Required field
+			</span>
+		</div>
+		<div class="control">
+			<h4 class="text-truncate">Phone number</h4>
+			<input data-val="true" data-val-length="The field Gsm must be a string with a maximum length of 35." data-val-length-max="35" data-validator="gsmgeneral" id="Gsm" maxlength="20" minlength="5" name="Gsm" pattern="gsm-general" placeholder="Phone number" required="" type="text" value="37360000000" aria-describedby="Gsm" style="">
+			<span id="Gsm" class="form-error" role="alert">
+				Required field
+			</span>
+		</div>
+		<div class="control">
+			<h4 class="text-truncate">Email</h4>
+			<input data-val="true" data-val-length="The field Email must be a string with a maximum length of 64." data-val-length-max="64" data-val-regex="MSG_ERR_INVALID_MASK_EMAIL" data-val-regex-pattern="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$" data-validator="trimfield" id="Email" maxlength="64" name="Email" pattern="email" placeholder="Enter your email" required="" type="text" value="docs-check@example.com" aria-describedby="1ehsmh-abide-error" style="">
+			<span class="form-error" data-form-error-on="required" role="alert" id="1ehsmh-abide-error">
+				Required field
+			</span>
+			<span class="form-error" data-form-error-on="pattern" role="alert">
+				Please check email format. Make sure there are no spaces at the beginning or at the end
+			</span>
+		</div>
+	</div>
+</div>
+<!--<div class="grid-x grid-margin-x margin-top-2 small-margin-top-1" id="billinginfo">
+	<div class="large-8 medium-9 small-12 cell">
+		<div class="grid-x grid-padding-x">
+			<div class="cell medium-auto small-12">
+				<h4 class="dark-gray text-truncate label_input">First name</h4>
+				<input data-validator="trimfield" id="FirstName" maxlength="32" name="FirstName" pattern="alpha-general" placeholder="Insert&#32;your&#32;name" required="" type="text" value="Docs" />
+				<span id="FirstName" class="form-error" data-form-error-on="required">
+					Required field
+				</span>
+				<span class="form-error" data-form-error-on="pattern">
+					Required field
+				</span>
+			</div>
+			<div class="cell medium-auto small-12">
+				<h4 class="dark-gray text-truncate label_input">Last name</h4>
+				<input data-validator="trimfield" id="LastName" maxlength="32" name="LastName" pattern="alpha-general" placeholder="Insert&#32;your&#32;last&#32;name" required="" type="text" value="Check" />
+				<span id="LastName" class="form-error" data-form-error-on="required">
+					Required field
+				</span>
+				<span class="form-error" data-form-error-on="pattern">
+					Required field
+				</span>
+			</div>
+			<input data-val="true" data-val-length="The&#32;field&#32;Country&#32;must&#32;be&#32;a&#32;string&#32;with&#32;a&#32;maximum&#32;length&#32;of&#32;64." data-val-length-max="64" id="Country" name="Country" type="hidden" value="" />
+			<input data-val="true" data-val-length="The&#32;field&#32;City&#32;must&#32;be&#32;a&#32;string&#32;with&#32;a&#32;maximum&#32;length&#32;of&#32;64." data-val-length-max="64" id="City" name="City" type="hidden" value="" />
+			<input data-val="true" data-val-length="The&#32;field&#32;Address&#32;must&#32;be&#32;a&#32;string&#32;with&#32;a&#32;maximum&#32;length&#32;of&#32;64." data-val-length-max="64" id="Address" name="Address" type="hidden" value="" />-->
+			
+			<!--<div class="width-100"></div>
+			<div class="cell medium-auto small-12">
+				<h4 class="dark-gray text-truncate label_input">Phone number</h4>
+				<input data-validator="gsmgeneral" id="Gsm" maxlength="20" minlength="5" name="Gsm" pattern="gsm-general" placeholder="Phone&#32;number" required="" type="text" value="37360000000" />
+				<span id="Gsm" class="form-error">
+					Required field
+				</span>
+			</div>
+			<div class="cell medium-auto small-12">
+				<h4 class="dark-gray text-truncate label_input">Email</h4>
+				<input data-validator="trimfield" id="Email" maxlength="64" name="Email" pattern="email" placeholder="Enter&#32;your&#32;email" required="" type="text" value="docs-check@example.com" />
+				<span class="form-error" data-form-error-on="required">
+					Required field
+				</span>
+				<span class="form-error" data-form-error-on="pattern">
+					Please check email format. Make sure there are no spaces at the beginning or at the end
+				</span>
+			</div>
+		</div>
+	</div>
+</div>-->
+
+
+<div class="save-card">
+	<input class="" id="PSPLinkedCardsSetting_SaveUsedBankCard" type="checkbox" name="PSPLinkedCardsSetting.SaveUsedBankCardString" checked="checked" style="">
+	<h5>
+		Save card details
+	</h5>
+	
+</div>
+										<div id="maincheckoutbuttons">
+										<div class="pay-button-group">
+											<button type="submit" id="submit-default" class=" pay-button">
+												<i class="fas fa-lock"></i>
+												Pay NOW
+											</button>
+											<a href="https://docs.paynet.md/api/#/e2e/cancel" class="cancel-button">Cancel</a>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+				</div>
+</form>			<ul class="menu display-none" data-magellan="2nt0uz-magellan" data-offset="100" data-resize="arxx1a-magellan" data-scroll="arxx1a-magellan" id="arxx1a-magellan" data-events="resize">
+				<li><a id="goto_errorCardNr" href="#errorCardNr"></a></li>
+				<li><a id="goto_errorCardExp" href="#errorCardExp"></a></li>
+				<li><a id="goto_errorCardCVV" href="#errorCardCVV" class="is-active"></a></li>
+				<li><a id="goto_errorresponse" href="#errorresponse"></a></li>
+				<li><a id="goto_FirstName" href="#FirstName"></a></li>
+				<li><a id="goto_LastName" href="#LastName"></a></li>
+				<li><a id="goto_Country" href="#Country"></a></li>
+				<li><a id="goto_City" href="#City"></a></li>
+				<li><a id="goto_Address" href="#Address"></a></li>
+				<li><a id="goto_Gsm" href="#Gsm"></a></li>
+				<li><a id="goto_Email" href="#Email"></a></li>
+
+				<li><a id="goto_errorCardNr_alter" href="#errorCardNr_alter"></a></li>
+				<li><a id="goto_errorCardExp_alter" href="#errorCardExp_alter"></a></li>
+				<li><a id="goto_errorCardCVV_alter" href="#errorCardCVV_alter"></a></li>
+				<li><a id="goto_errorresponse_alter" href="#errorresponse_alter"></a></li>
+				<li><a id="goto_FirstName_alter" href="#FirstName_alter"></a></li>
+				<li><a id="goto_LastName_alter" href="#LastName_alter"></a></li>
+				<li><a id="goto_Gsm_alter" href="#Gsm_alter"></a></li>
+				<li><a id="goto_Email_alter" href="#Email_alter"></a></li>
+
+				<li><a id="goto_errorresponse_tokenization" href="#errorresponse_tokenization"></a></li>
+			</ul>
+			<div class="position-absolute width-100 height-100" id="loader" style="display: none; background: url(/content/images/loader.gif) center no-repeat; top: 0;"></div>
+		</div>
+		<div class="cell large-auto medium-auto small-12 small-padding-0">
+
+			<div class="footer-logo">
+				<picture data-loader="pic">
+					<source srcset="/content/images/logos/verifiedbyvisa.webp" type="image/webp">
+					<source srcset="/content/images/logos/verifiedbyvisa.png" type="image/png">
+					<img src="/content/images/logos/verifiedbyvisa.png" alt="verified-by-visa">
+				</picture>
+				<picture data-loader="pic">
+					<source srcset="/content/images/logos/mastercardsecurecode.webp" type="image/webp">
+					<source srcset="/content/images/logos/mastercardsecurecode.png" type="image/png">
+					<img src="/content/images/logos/mastercardsecurecode.png" alt="mastercard-secure-code">
+				</picture>
+				<picture data-loader="pic">
+					<source srcset="/content/images/logos/pcidss.webp" type="image/webp">
+					<source srcset="/content/images/logos/pcidss.png" type="image/png">
+					<img src="/content/images/logos/pcidss.png" alt="pci-dss">
+				</picture>
+			</div>
+		</div>
+	</div>
+
+
+	</div>
+</div>
+
+<div class="psp-footer">
+	<div class="footer-link">
+		<a target="_blank" href="/home/about">About us</a>
+		<a target="_blank" href="/Blog">News</a>
+		<a target="_blank" href="/home/terms?isWeb=da">Terms&amp;Conditions</a>
+		<a target="_blank" href="/home/frequently?isWeb=da">FAQ</a>
+		<a target="_blank" href="/home/contacts">Contact us</a>
+	</div>
+</div>
+
+
+
+
+
+<script nonce="">
+	var analyticpsphost = 'https://psp-test.paynet.md'
+</script>
+
+<script src="/bundles/views/shared_/security?v=pzcd3n_5NPorkWWyzknqKAmUa3ePYFICo6cDZiSkZMU1"></script>
+
+
+
+
+
+
+
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6LexmNwqAAAAAL17gxKoTpSfVAkmCdcJYZ487ObB"></script>
+
+	<script src="/PayPoint.Web.Core.UI/Scripts/Modernizr?v=J7FACmTdznIT3mTJME3H1uBW18rY4VmOwok6BXZ4fHM1"></script>
+
+	<script src="/PayPoint.Web.Core.UI/Scripts/JQuery?v=Ypd1Z3VJQl-5js0E42aNiwh4LX2Ewn7cB1n3IGckrKA1"></script>
+
+	<script src="/PayPoint.Web.Core.UI/Scripts/Foundation?v=jcX0v9CrcmgbUQp4XkSzp9qjW7MgBvVI-yMJanWqeEk1"></script>
+
+	<script src="/PayPoint.Web.Core.UI/Scripts/Lazy?v=BzJKafqhVjQ25IC03Pa1Ft_MvUCQlUMB0Z4C4fGymbo1"></script>
+
+	<script nonce="">
+		$(document).ready(function () {
+			$(".lazy, picture").Lazy();
+			$("body").css({ "opacity": "1", "transition": "opacity linear 1s" });
+		});
+	</script>
+	
+	<script type="text/javascript" src="/scripts/bundle/layoutpsp.js?v=10.06.2026" async="" defer=""></script>
+	<script src="/spa/main.js" type="module"></script>
+	
+
+		 
+
+	<script src="https://sentry-test.paynet.md/js-sdk-loader/0d95093fa49881c030f7f38dbe4e1d17.min.js" crossorigin="anonymous"></script>
+	<script nonce="">
+		(function () {
+			var sentryPage = 'ecom-main';
+			var sentryView = 'Main';
+			var sentryController = 'Ecom';
+			 
+			Sentry.init({
+				dsn: "https://73be5269799c6e953ab0dea1f662047a@sentry-test.paynet.md/6", 
+				environment: "production",
+
+				tracesSampleRate: 0.0,
+				replaysSessionSampleRate: 0.1,
+				replaysOnErrorSampleRate: 0.0,
+
+				beforeSend(event, hint) {
+					if (event.request && event.request.cookies) {
+						delete event.request.cookies;
+					}
+					if (event.request && event.request.headers) {
+						delete event.request.headers['Authorization'];
+						delete event.request.headers['Cookie'];
+					}
+
+					event.tags = event.tags || {};
+					event.tags.page = sentryPage;
+					event.tags.controller = sentryController;
+					event.tags.view = sentryView;
+
+
+
+
+					event.extra = event.extra || {};
+
+					return event;
+				},
+			});
+
+			if (typeof jQuery !== 'undefined') {
+				$(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
+					Sentry.captureException(new Error('AJAX Error: ' + thrownError), {
+						tags: {
+							type: 'ajax',
+							url: ajaxSettings.url,
+							page: sentryPage,
+							method: ajaxSettings.type
+						},
+						extra: {
+							status: jqXHR.status,
+							statusText: jqXHR.statusText
+						}
+					});
+				});
+			}
+
+		 
+
+		})();
+	</script>
+ 
+
+		<script src="/scripts/libs/jquery-qrcode.js"></script>
+			<script nonce="">
+				$(".card-info").removeClass('display-none')
+			</script>
+
+
+
+		<script nonce="">
+
+			$(document).ready(() => {
+				$("#mia-pay").hide();
+
+			});
+
+			var HasGooglePay =  'False' === 'True' ? true : false;
+			var HasApplePay =  'False' === 'True' ? true : false;
+			var HasLinkedCards = 'False' === 'True' ? true : false;
+			var HasCyberSource = 'True' === 'True' ? true : false;
+			var UIFlow = 'GOOGLEPAY_OFF_APPLEPAY_OFF_LINKEDCARDS_OFF';
+
+
+
+
+
+			function isBinFromMoldova(input) {
+				if (input === false) {
+					$('input[data-mpcode]').filter(function () {
+						if ($(this).attr('data-mpcode').toLowerCase().includes('mdl')) {
+							$(this).parent().addClass("filter_gray");
+							if ($(this).prop('checked')) {
+								let nextInput = $(this).parent().next().find('input[name=currency]');
+								if (nextInput.length) nextInput.click();
+							}
+						}
+					});
+				} else {
+					$('input[data-mpcode]').filter(function () {
+						if ($(this).attr('data-mpcode').toLowerCase().includes('mdl')) {
+							$(this).parent().removeClass("filter_gray");
+						}
+					});
+				}
+			}
+
+			function PayCardorPayNet() {
+				console.log("INTERATOR")
+				$(".check-currency").show()
+				if (UIFlow.includes("LINKEDCARDS_OFF")) {
+					if (1 != 1) {
+						$("#cardinfo*").removeClass('display-none');
+						$("#submit-default").show();
+					} else {
+						$("#cardinfo*").addClass('display-none');
+						$("#submit-default").show();
+
+					}
+				}
+				$("#submit-default").show();
+
+			}
+
+			function onPayNet() {
+				$("#mia-pay").hide();
+				$(".check-currency").hide()
+			}
+
+
+
+			switch (UIFlow) {
+				case 'GOOGLEPAY_OFF_APPLEPAY_OFF_LINKEDCARDS_OFF':
+				{
+					$("#Paycard").addClass('display-none');
+					break;
+				}
+				case 'GOOGLEPAY_OFF_APPLEPAY_OFF_LINKEDCARDS_ON':
+				{
+					$("#Paycard").addClass('display-none');
+					LoadTokenizationcardScript();
+					break;
+				}
+				case 'GOOGLEPAY_ON_APPLEPAY_ON_LINKEDCARDS_OFF':
+				case 'GOOGLEPAY_ON_APPLEPAY_OFF_LINKEDCARDS_OFF':
+				case 'GOOGLEPAY_OFF_APPLEPAY_ON_LINKEDCARDS_OFF':
+				{
+					$("#cardinfo*").addClass('display-none');
+					break;
+				}
+				case 'GOOGLEPAY_ON_APPLEPAY_ON_LINKEDCARDS_ON':
+				case 'GOOGLEPAY_OFF_APPLEPAY_ON_LINKEDCARDS_ON':
+				case 'GOOGLEPAY_ON_APPLEPAY_OFF_LINKEDCARDS_ON':
+				{
+					LoadTokenizationcardScript();
+					$("#cardinfo*").addClass('display-none');
+					break;
+				}
+			}
+
+
+			function OpenOrderInfo() {
+				if ($(".order-info-content").is(':visible')) {
+					$(".order-info-content").addClass('display-none');
+					$("#icon-order-info").removeClass("expanded")
+					$("#exp-text").text("Click to view details")
+				} else {
+					$(".order-info-content").removeClass('display-none');
+					$("#icon-order-info").addClass("expanded")
+					$("#exp-text").text("Hide details")
+				}
+
+			}
+
+			function showCardInfo() {
+				if ($(".card-info").is(":visible")) {
+				} else {
+					$(".card-info").removeClass('display-none')
+					const obj = {
+						action: "PSP-PAY-NEW-CARD"
+					};
+					window.linkedcards_iframe.contentWindow.postMessage(obj, window.psphost);
+				}
+			}
+
+			function OpenBillingInfo() {
+				if (HasLinkedCards) {
+					$("#Paycard h5").html("Pay with card");
+					$("#submit-default").show();
+				}
+				if ($(".billing-info-form").is(':visible')) {
+					$(".billing-info-form").addClass('display-none')
+					$("#icon-billing-info").removeClass("expanded")
+				} else {
+					$(".billing-info-form").removeClass('display-none');
+					$("#icon-billing-info").addClass("expanded")
+
+				}
+				if (UIFlow.includes("LINKEDCARDS_OFF") && (UIFlow.includes("GOOGLEPAY_ON") || UIFlow.includes("APPLEPAY_ON"))) {
+								$("#submit-default").show();
+				}
+				if (UIFlow.includes("LINKEDCARDS_ON") && UIFlow.includes("GOOGLEPAY_OFF") && UIFlow.includes("APPLEPAY_OFF")) {
+								$("#Paycard").addClass('display-none');
+				}
+			}
+
+
+			var obj = `[{"Id":2,"Code":"VISA_AND_MASTER_MDL","Name":"Card MDL","Description":"For all banks of Moldova","Currency":498,"CurrencyCode":"MDL","FeeRate":0,"State":1,"Order":2,"Info":{"Amount":0,"Rate":1.0,"ExchangeAmount":300,"ExchangeCustomerFeeAmount":0,"RateConditions":"0% commission","Parameter":null,"FeeCustomerValue":0,"FeeCustomer":0,"DiscountParams":null,"DiscountInfo":[]},"Issuers":[{"MoneyEntityId":0,"Id":1,"Code":"ISSUER_MAIB","Name":"Maib","Description":null,"State":0,"RequireCustomerIdenity":true,"Order":1,"FeeDirect":0.0,"FeeRate":0,"Currency":0,"FeeCustomer":0,"SpecialCommission":null,"DiscountFlag":false,"DiscountParams":null,"ViewType":null,"TabView":null,"ExternalCurrency":null,"IsCryptocurrency":false,"MinAddressLength":0,"MaxAddressLength":0,"MoneyIssuerCode":null,"MoneyIssuerParams":null,"MoneyEntityCode":null,"MoneyProviderCode":null,"EntityTerminalId":null,"RoutingRuleId":null,"NewDiscount":null,"UseNewRoutingImplementation":false,"UseNewTerminal":false,"HasPreAuth":false}],"Rate":0.0,"RateConditions":null,"FeeCustomer":0,"isNeedConfirmByClient":true,"DiscountFlag":false,"DiscountParams":null,"ViewType":null,"TabView":"bank_card","SpecialCommission":null,"ExternalParam":null},{"Id":222,"Code":"CYBER_SOURCE_MDL","Name":"CYBER_SOURCE_MDL","Description":"CYBER_SOURCE_MDL","Currency":498,"CurrencyCode":"MDL","FeeRate":0,"State":1,"Order":80,"Info":{"Amount":0,"Rate":1.0,"ExchangeAmount":300,"ExchangeCustomerFeeAmount":0,"RateConditions":"0% commission","Parameter":null,"FeeCustomerValue":0,"FeeCustomer":0,"DiscountParams":null,"DiscountInfo":[]},"Issuers":[{"MoneyEntityId":0,"Id":271,"Code":"ISSUER_CYBER_SOURCE_MDL","Name":"CYBER_SOURCE","Description":null,"State":0,"RequireCustomerIdenity":true,"Order":1,"FeeDirect":0.0,"FeeRate":0,"Currency":0,"FeeCustomer":0,"SpecialCommission":null,"DiscountFlag":false,"DiscountParams":null,"ViewType":"cybersource","TabView":null,"ExternalCurrency":null,"IsCryptocurrency":false,"MinAddressLength":0,"MaxAddressLength":0,"MoneyIssuerCode":null,"MoneyIssuerParams":null,"MoneyEntityCode":null,"MoneyProviderCode":null,"EntityTerminalId":null,"RoutingRuleId":null,"NewDiscount":null,"UseNewRoutingImplementation":false,"UseNewTerminal":false,"HasPreAuth":false}],"Rate":0.0,"RateConditions":null,"FeeCustomer":0,"isNeedConfirmByClient":true,"DiscountFlag":false,"DiscountParams":null,"ViewType":null,"TabView":"bank_card","SpecialCommission":null,"ExternalParam":null}]`;
+			var mp_json =
+			JSON.parse(obj.split('DiscountParams":"[').join('DiscountParams":[')
+				.split(']","DiscountInfo"').join('],"DiscountInfo"')
+				.split(']","ViewType"').join('],"ViewType"')
+				.split(']"},{"').join(']},{"')
+                .split('}]"}]').join('}]}]'));
+
+			var invalid_token_msg = `1 - We are sorry, this service is temporarily unavailable`;
+
+
+			
+			function trimfield(
+				$el,		/* jQuery element to validate */
+				required	/* is the element required according to the `[required]` attribute */
+			) {
+				if (!required) return true;
+				var value = $el.val().trim().split(" ").join("");
+				$el.val(value);
+				var _res = Abide.defaults.patterns[$el.attr("pattern")].test(value);
+				return _res;
+			}
+
+			function gsmgeneral(
+				$el,		/* jQuery element to validate */
+				required	/* is the element required according to the `[required]` attribute */
+			) {
+				if (!required) return true;
+				var value = $el.val();
+				var _res = Abide.defaults.patterns[$el.attr("pattern")].test(value)
+					&& value.length >= parseInt($el.attr("minlength"))
+					&& value.length <= parseInt($el.attr("maxlength"));
+				return _res;
+			}
+			Foundation.Abide.defaults.validators["trimfield"] = trimfield;
+			Foundation.Abide.defaults.validators["gsmgeneral"] = gsmgeneral;
+			Foundation.Abide.defaults.patterns["gsm-mdl"] = /^\+373[7|6][0-9]{7}$/;
+			Foundation.Abide.defaults.patterns["gsm-general"] = /^[-+\)\(\s\.)\d]+$/;
+			Foundation.Abide.defaults.patterns["alpha-general"] = /^[a-zA-Z]*[-]{0,1}[a-zA-Z]+$/;
+
+		</script>
+
+
+
+
+
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/3.0.0/jquery.payment.min.js" integrity="sha512-vBu5d4hztWcpvKmp+qUS8afvWUMjTd59Z7ci0j6YnKu83yy6Xh/VxtgZqIteIFaK3gMYDm0AnOp3pEF4z6afMw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<script nonce="">
+				$('#CardExp').payment('formatCardExpiry');
+                var cs_auth_url = "https://merchant-api-test.paynet.md/api/ecom/processcs",
+                    cs_init_url = "/Ecom/CheckoutInitS",
+                    ecom_checkbin = "/ecom/checkbin",
+					ecom_checkoutinitvgs = "/ecom/checkoutinitvgs",
+					ecom_checkdiscount = "/ecom/checkamount",
+                    linkedType = 0;
+                var DOMcontext = "#mp_visa_mastercard";
+			</script>
+
+	
+
+	<script src="/PayPoint.Web.Core.UI/Scripts/Foundation/start?v=bPCtpfMTpz1CX03rzk0Vi6XxpXE-TAU0ANH07h9gSSw1"></script>
+
+
+	
+
+
+<div><div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;"><div class="grecaptcha-logo"><iframe title="reCAPTCHA" width="256" height="60" role="presentation" name="a-vccgelwuv6ku" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/enterprise/anchor?ar=1&amp;k=6LexmNwqAAAAAL17gxKoTpSfVAkmCdcJYZ487ObB&amp;co=aHR0cHM6Ly90ZXN0LnBheW5ldC5tZDo0NDM.&amp;hl=en&amp;v=4i3aN5wAweL7i3ADI7BSX4B-&amp;size=invisible&amp;anchor-ms=20000&amp;execute-ms=30000&amp;ovv=CADq00gF&amp;cb=n8hmdkgbxkev"></iframe></div><div class="grecaptcha-error"></div><textarea id="g-recaptcha-response-100000" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div></body></html>
