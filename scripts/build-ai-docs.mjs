@@ -57,7 +57,7 @@ const guides = SECTIONS.flatMap((section) =>
     .sort()
     .map((file) => {
       const slug = file.replace(/^\d+-/, '').replace(/\.md$/, '');
-      const source = fs.readFileSync(path.join(contentDir, section.id, file), 'utf8');
+      const source = fs.readFileSync(path.join(contentDir, section.id, file), 'utf8').replace(/\r\n/g, '\n');
       const title = (source.match(/^#\s+(.+)$/m) || [null, slug])[1].trim();
       const summary = (source.split('\n').find((line) => line.trim() && !line.startsWith('#') && !line.startsWith('|')) || '').trim();
       return { slug, section: section.id, title, summary: SUMMARIES[slug] || summary, source };
@@ -305,7 +305,7 @@ for (const lang of ['ru', 'ro']) {
     if (!fs.existsSync(dir)) continue;
     for (const file of fs.readdirSync(dir).filter((f) => /^\d+-.+\.md$/.test(f))) {
       const slug = file.replace(/^\d+-/, '').replace(/\.md$/, '');
-      const source = fs.readFileSync(path.join(dir, file), 'utf8')
+      const source = fs.readFileSync(path.join(dir, file), 'utf8').replace(/\r\n/g, '\n')
         .replace(/\]\(#\/guides\/([a-z0-9-]+)\)/g, (_, target) => `](${siteUrl}docs/${lang}/${target}.md)`)
         .replace(/\]\(mocks\//g, `](${siteUrl}mocks/`).replace(/\]\(postman\//g, `](${siteUrl}postman/`).replace(/\]\(#\/page\//g, `](${siteUrl}#/page/`).replace(/\]\(sdk\//g, `](${siteUrl}sdk/`);
       fs.writeFileSync(path.join(docsOut, lang, `${slug}.md`), source);

@@ -19,7 +19,7 @@ const errors = [];
 const fail = (message) => errors.push(message);
 
 // Guides live in content/<lang>/<section>/NN-slug.md; "file" below is "<section>/NN-slug.md".
-const read = (lang, file) => fs.readFileSync(path.join(root, 'content', lang, file), 'utf8');
+const read = (lang, file) => fs.readFileSync(path.join(root, 'content', lang, file), 'utf8').replace(/\r\n/g, '\n'); // CRLF-safe (Windows checkouts)
 const listGuides = (lang) =>
   fs.readdirSync(path.join(root, 'content', lang), { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
