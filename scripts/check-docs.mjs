@@ -259,7 +259,7 @@ for (const lang of languages) {
 {
   const exampleDir = path.join(root, 'examples', 'node-shop');
   const docHandler = codeBlocks(read('en', files.en.find((f) => f.endsWith('-notifications.md'))), 'javascript').find((code) => code.includes('export function createPaynetHandler'));
-  const exampleHandler = fs.readFileSync(path.join(exampleDir, 'paynet-notifications.mjs'), 'utf8').trim();
+  const exampleHandler = fs.readFileSync(path.join(exampleDir, 'paynet-notifications.mjs'), 'utf8').replace(/\r\n/g, '\n').trim();
   if (docHandler && docHandler.trim() !== exampleHandler) fail('examples/node-shop/paynet-notifications.mjs differs from the handler in the Notifications guide');
   for (const file of ['server.mjs', 'paynet-client.mjs', 'paynet-notifications.mjs', 'store.mjs', 'tools/send-test-notification.mjs']) {
     try {
